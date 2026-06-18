@@ -1,0 +1,55 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "name": "Slow Railway Backend",
+      "description": "Simulates a slow backend response",
+      "networkConfig": {
+        "latency": 3000,
+        "errorCode": "none",
+        "failureRate": 20,
+        "rateLimit": "none",
+        "networkProfile": "3g",
+        "payloadMultiplier": 10
+      },
+      "schemaMutations": {},
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "isActive": false
+    },
+    {
+      "id": "scenario-2",
+      "name": "Rate Limited API",
+      "description": "API with rate limiting and occasional errors",
+      "networkConfig": {
+        "latency": 500,
+        "errorCode": "429",
+        "failureRate": 15,
+        "rateLimit": "20",
+        "networkProfile": "4g",
+        "payloadMultiplier": 1
+      },
+      "schemaMutations": {},
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "isActive": false
+    },
+    {
+      "id": "scenario-3",
+      "name": "Large Payload Test",
+      "description": "Tests frontend with large response data",
+      "networkConfig": {
+        "latency": 1000,
+        "errorCode": "none",
+        "failureRate": 5,
+        "rateLimit": "none",
+        "networkProfile": "fast-wifi",
+        "payloadMultiplier": 100
+      },
+      "schemaMutations": {},
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "isActive": false
+    }
+  ]
+}
