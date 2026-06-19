@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 export default function Playground() {
   const { 
@@ -143,7 +144,7 @@ export default function Playground() {
         // Sync to backend proxy if active
         if (data.isProxyActive && data.proxyId && data.backendUrl) {
           try {
-            await axios.post('http://localhost:5000/api/proxy/create', {
+            await axios.post(`${API_BASE_URL}/api/proxy/create`, {
               backendUrl: data.backendUrl,
               networkConfig: {
                 latency: data.latency || 0,

@@ -59,6 +59,7 @@ export function createServer() {
 
   // Routes
   app.use('/health', healthRoutes);
+  app.use('/api/health', healthRoutes);
   app.use('/api/proxy', proxyRoutes);
   app.use('/api/scenarios', scenarioRoutes);
 

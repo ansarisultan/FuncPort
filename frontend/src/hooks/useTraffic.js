@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useStore } from '../store/useStore';
 import axios from 'axios';
-
-const API_BASE_URL = 'http://localhost:5000';
+import { API_BASE_URL } from '../config';
 
 export function useTraffic() {
   const { trafficLogs, clearTrafficLogs } = useStore();

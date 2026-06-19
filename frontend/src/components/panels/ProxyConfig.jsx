@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../../config';
 
 export default function ProxyConfig() {
   const { 
@@ -48,7 +49,7 @@ export default function ProxyConfig() {
     setConnectionMessage('');
     
     try {
-      const response = await axios.post('http://localhost:5000/api/proxy/check-network', {
+      const response = await axios.post(`${API_BASE_URL}/api/proxy/check-network`, {
         backendUrl
       });
       if (response.data && response.data.online) {

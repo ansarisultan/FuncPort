@@ -6,8 +6,7 @@ import {
   Check, X, Edit
 } from 'lucide-react';
 import axios from 'axios';
-
-const API_BASE_URL = 'http://localhost:5000';
+import { API_BASE_URL } from '../../config';
 
 export default function ScenarioManager() {
   const { 
