@@ -100,7 +100,7 @@ export default function ProxyConfig() {
   };
 
   return (
-    <div className="panel-3d p-5 space-y-4 bg-[#0A1020]/90">
+    <div className="panel-3d p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold text-white flex items-center gap-2">
           <Link className="w-4 h-4 text-primary-400" />

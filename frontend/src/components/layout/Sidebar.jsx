@@ -5,15 +5,20 @@ import {
   Zap, Sparkles, Shield, Globe,
   Plus, FolderOpen, Clock, BarChart3,
   ChevronDown, ChevronRight, Cpu,
-  Loader2, Terminal, GitBranch, Database, X
+  Loader2, Terminal, GitBranch, Database, X,
+  Download, Upload
 } from 'lucide-react';
 import { useStore } from '../../store/useStore';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../../config';
 
 const navItems = [
-  { to: '/', label: 'Playground', icon: Network },
-  { to: '/scenarios', label: 'Scenarios', icon: FolderOpen },
+  { to: '/', label: 'Overview', icon: BarChart3 },
+  { to: '/config', label: 'Configuration', icon: Settings },
   { to: '/logs', label: 'Traffic Logs', icon: Activity },
   { to: '/stress', label: 'Stress Test', icon: Loader2 },
+  { to: '/scenarios', label: 'Scenarios', icon: FolderOpen },
   { to: '/generator', label: 'Data Generator', icon: Database },
 ];
 
@@ -21,6 +26,107 @@ export default function Sidebar({ onClose }) {
   const { scenarios, isProxyActive, trafficLogs, setActiveTab, loadScenario } = useStore();
   const [showProjects, setShowProjects] = useState(true);
   const navigate = useNavigate();
+
+  const handleExportBackup = () => {
+    try {
+      const state = useStore.getState();
+      const backupData = {
+        backendUrl: state.backendUrl,
+        proxyUrl: state.proxyUrl,
+        proxyId: state.proxyId,
+        isProxyActive: state.isProxyActive,
+        latency: state.latency,
+        errorCode: state.errorCode,
+        failureRate: state.failureRate,
+        rateLimit: state.rateLimit,
+        networkProfile: state.networkProfile,
+        payloadMultiplier: state.payloadMultiplier,
+        schemaMutations: state.schemaMutations,
+        scenarios: state.scenarios,
+        trafficLogs: state.trafficLogs,
+        trafficStats: state.trafficStats,
+        webhookUrl: state.webhookUrl,
+        isWebhookEnabled: state.isWebhookEnabled,
+      };
+
+      const dataStr = JSON.stringify(backupData, null, 2);
+      const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+      const exportFileDefaultName = `funcport-backup-${new Date().toISOString().slice(0, 10)}.json`;
+
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
+      toast.success('Backup file exported successfully!');
+    } catch (err) {
+      toast.error('Failed to export backup: ' + err.message);
+    }
+  };
+
+  const handleImportBackup = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const data = JSON.parse(event.target.result);
+        if (typeof data !== 'object') {
+          throw new Error('Invalid JSON format.');
+        }
+
+        useStore.setState({
+          backendUrl: data.backendUrl || '',
+          proxyUrl: data.proxyUrl || '',
+          proxyId: data.proxyId || null,
+          isProxyActive: data.isProxyActive || false,
+          latency: data.latency || 0,
+          errorCode: data.errorCode || 'none',
+          failureRate: data.failureRate || 0,
+          rateLimit: data.rateLimit || 'none',
+          networkProfile: data.networkProfile || 'custom',
+          payloadMultiplier: data.payloadMultiplier || 1,
+          schemaMutations: data.schemaMutations || {
+            removeFields: [],
+            renameFields: {},
+            returnNull: [],
+            emptyArrays: [],
+            changeTypes: {},
+          },
+          scenarios: data.scenarios || [],
+          trafficLogs: data.trafficLogs || [],
+          trafficStats: data.trafficStats || { total: 0, success: 0, errors: 0, avgResponseTime: 0, requestsPerSecond: 0 },
+          webhookUrl: data.webhookUrl || '',
+          isWebhookEnabled: data.isWebhookEnabled || false,
+        });
+
+        if (data.isProxyActive && data.proxyId && data.backendUrl) {
+          try {
+            await axios.post(`${API_BASE_URL}/api/proxy/create`, {
+              backendUrl: data.backendUrl,
+              networkConfig: {
+                latency: data.latency || 0,
+                errorCode: data.errorCode || 'none',
+                failureRate: data.failureRate || 0,
+                rateLimit: data.rateLimit || 'none',
+                networkProfile: data.networkProfile || 'custom',
+                payloadMultiplier: data.payloadMultiplier || 1,
+              },
+              schemaMutations: data.schemaMutations || {}
+            });
+          } catch (backendErr) {
+            console.error('Failed to sync proxy on backend during import:', backendErr);
+          }
+        }
+
+        toast.success('Backup file imported successfully!');
+      } catch (err) {
+        toast.error('Failed to parse backup file: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
 
   return (
     <aside className="h-full flex flex-col py-4 px-3 bg-[#0A1020]/95 backdrop-blur-2xl border-r border-[#1E293B]/60 shadow-2xl">
@@ -161,8 +267,27 @@ export default function Sidebar({ onClose }) {
         </button>
       </div>
 
+      {/* Backup Controls */}
+      <div className="px-3 pt-3 mt-3 border-t border-[#1E293B]/60 space-y-2">
+        <div className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mb-1">Backup Management</div>
+        <div className="grid grid-cols-2 gap-2">
+          <button 
+            onClick={handleExportBackup} 
+            className="flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-semibold text-slate-300 hover:text-white bg-[#0A1020] hover:bg-white/5 transition border border-[#1E293B]/60 w-full"
+          >
+            <Download className="w-3 h-3 text-primary-400" />
+            <span>Export</span>
+          </button>
+          <label className="flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-semibold text-slate-300 hover:text-white bg-[#0A1020] hover:bg-white/5 transition border border-[#1E293B]/60 w-full cursor-pointer text-center">
+            <Upload className="w-3 h-3 text-[#06B6D4]" />
+            <span>Import</span>
+            <input type="file" accept=".json" onChange={handleImportBackup} className="hidden" />
+          </label>
+        </div>
+      </div>
+
       {/* Footer */}
-      <div className="px-3 pt-2 mt-2 border-t border-white/5">
+      <div className="px-3 pt-2 mt-2 border-t border-[#1E293B]/60">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-[10px] text-slate-500">
             <div className="w-1.5 h-1.5 rounded-full bg-success-400 animate-pulse" />

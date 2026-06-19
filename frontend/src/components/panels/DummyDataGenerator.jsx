@@ -157,7 +157,7 @@ export function DummyDataGeneratorConfig() {
   }
 
   return (
-    <div className="panel-3d p-4 space-y-4 bg-[#0A1020]">
+    <div className="panel-3d p-6 space-y-4">
       <div className="flex items-center gap-2 border-b border-[#1E293B]/60 pb-2">
         <Database className="w-4 h-4 text-[#06B6D4]" />
         <h4 className="text-sm font-semibold text-white">Generator Setup</h4>
@@ -241,7 +241,7 @@ export function DummyDataGeneratorPreview() {
   const { generatorFormat, generatorData } = useStore();
 
   return (
-    <div className="panel-3d p-4 h-full flex flex-col bg-[#0A1020] overflow-hidden">
+    <div className="panel-3d p-6 h-full flex flex-col overflow-hidden">
       <div className="flex items-center justify-between border-b border-[#1E293B]/60 pb-2 mb-3">
         <h4 className="text-sm font-semibold text-white">Schema Preview</h4>
         <span className="text-[10px] text-[#06B6D4] font-mono font-semibold uppercase">{generatorFormat}</span>

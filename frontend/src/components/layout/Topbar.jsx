@@ -14,6 +14,7 @@ import toast from 'react-hot-toast';
 export default function Topbar({ onMenuClick }) {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showAIAssistant, setShowAIAssistant] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
@@ -62,119 +63,225 @@ export default function Topbar({ onMenuClick }) {
   return (
     <>
       <header className="h-14 flex items-center px-4 md:px-6 border-b border-white/5 bg-[#0A1020]/80 backdrop-blur-xl sticky top-0 z-30 justify-between">
-        
-        {/* Left Side: Mobile Menu & Product badge */}
-        <div className="flex items-center gap-2">
-          <button onClick={onMenuClick} className="lg:hidden text-slate-400 hover:text-white transition">
-            <Menu className="w-5 h-5" />
-          </button>
-          
-          {/* FuncPort badge - Brand Aura */}
-          <div className="flex items-center gap-1.5 bg-gradient-to-r from-primary-500/10 to-secondary-500/10 border border-primary-500/20 px-3 py-1 rounded-xl shadow-[0_0_20px_rgba(34,211,238,0.08)]">
-            <span className="text-base md:text-lg font-black tracking-widest bg-gradient-to-r from-primary-400 via-secondary-400 to-accent-400 bg-clip-text text-transparent uppercase font-mono">FuncPort</span>
-            <span className="text-[8px] font-bold text-primary-400 bg-primary-400/10 px-1 rounded">V2</span>
-          </div>
-        </div>
-
-        {/* Search bar */}
-        <div className="flex-1 max-w-lg mx-4 relative hidden sm:block">
-          <div className={`relative w-full transition-all duration-300 ${isSearchFocused ? 'scale-[1.01]' : ''}`}>
-            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300 ${
-              isSearchFocused ? 'text-primary-400' : 'text-slate-500'
-            }`} />
-            <input
-              type="text"
-              placeholder="Search FuncPort proxies, scenarios, logs..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
-              className={`w-full bg-[#10182D]/85 border rounded-xl pl-9 pr-14 py-1.5 text-xs text-white 
-                          placeholder-slate-500 outline-none transition-all duration-300
-                          ${isSearchFocused 
-                            ? 'border-primary-500/50 shadow-[0_0_25px_rgba(34,211,238,0.15)]' 
-                            : 'border-white/5 hover:border-white/10'
-                          }`}
-            />
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-              <kbd className="text-[10px] text-slate-500 bg-white/5 px-1.5 py-0.5 rounded border border-white/5 font-mono">
-                ⌘K
-              </kbd>
-            </div>
-          </div>
-
-          {/* Search Dropdown Overlay */}
-          {searchQuery && isSearchFocused && (
-            <div className="absolute top-11 left-0 w-full bg-[#0A1020]/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-4 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-50 max-h-96 overflow-y-auto">
-              <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Search Results</span>
-                <button onClick={() => setSearchQuery('')} className="text-slate-500 hover:text-white">
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </div>
+        {showMobileSearch ? (
+          /* Mobile Full-Width Search Input */
+          <div className="flex items-center w-full gap-2 z-50 animate-scale-in">
+            <button 
+              onClick={() => {
+                setShowMobileSearch(false);
+                setSearchQuery('');
+              }}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                autoFocus
+                placeholder="Search proxies, scenarios, logs..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
+                className="w-full bg-[#10182D]/90 border border-primary-500/50 shadow-[0_0_20px_rgba(34,211,238,0.15)] rounded-xl pl-9 pr-4 py-1.5 text-xs text-white outline-none"
+              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary-400" />
               
-              {filteredScenarios.length === 0 && filteredLogs.length === 0 && (
-                <p className="text-xs text-slate-400 py-2">No matching scenarios or logs found in FuncPort.</p>
-              )}
-
-              {filteredScenarios.length > 0 && (
-                <div className="mb-4">
-                  <span className="text-[10px] text-primary-400 font-semibold uppercase block mb-1">Scenarios</span>
-                  <div className="space-y-1">
-                    {filteredScenarios.map(s => (
-                      <button
-                        key={s.id}
-                        onClick={() => {
-                          navigate('/scenarios');
-                          setActiveTab('scenarios');
-                          loadScenario(s.id);
-                          setSearchQuery('');
-                        }}
-                        className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
-                      >
-                        <span>{s.name}</span>
-                        <span className="text-[10px] text-slate-500">{s.latency}ms latency</span>
-                      </button>
-                    ))}
+              {/* Search Dropdown Overlay inside mobile container */}
+              {searchQuery && isSearchFocused && (
+                <div className="absolute top-11 left-0 right-0 bg-[#0A1020]/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-4 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-50 max-h-96 overflow-y-auto">
+                  <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Search Results</span>
+                    <button onClick={() => setSearchQuery('')} className="text-slate-500 hover:text-white">
+                      <X className="w-3.5 h-3.5" />
+                    </button>
                   </div>
-                </div>
-              )}
+                  
+                  {filteredScenarios.length === 0 && filteredLogs.length === 0 && (
+                    <p className="text-xs text-slate-400 py-2">No matching scenarios or logs found.</p>
+                  )}
 
-              {filteredLogs.length > 0 && (
-                <div>
-                  <span className="text-[10px] text-secondary-400 font-semibold uppercase block mb-1">Traffic Logs</span>
-                  <div className="space-y-1">
-                    {filteredLogs.slice(0, 5).map(l => (
-                      <button
-                        key={l.id}
-                        onClick={() => {
-                          navigate('/logs');
-                          setActiveTab('traffic');
-                          setSearchQuery('');
-                        }}
-                        className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className={`font-bold px-1.5 py-0.5 rounded text-[10px] ${
-                            l.status < 400 ? 'bg-success-500/20 text-success-400' : 'bg-danger-500/20 text-danger-400'
-                          }`}>
-                            {l.status}
-                          </span>
-                          <span className="font-mono text-slate-400">{l.method}</span>
-                          <span className="truncate">{l.route}</span>
-                        </div>
-                        <span className="text-[10px] text-slate-500">{l.responseTime}</span>
-                      </button>
-                    ))}
-                  </div>
+                  {filteredScenarios.length > 0 && (
+                    <div className="mb-4 text-left">
+                      <span className="text-[10px] text-primary-400 font-semibold uppercase block mb-1">Scenarios</span>
+                      <div className="space-y-1">
+                        {filteredScenarios.map(s => (
+                          <button
+                            key={s.id}
+                            onClick={() => {
+                              navigate('/scenarios');
+                              setActiveTab('scenarios');
+                              loadScenario(s.id);
+                              setSearchQuery('');
+                              setShowMobileSearch(false);
+                            }}
+                            className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
+                          >
+                            <span>{s.name}</span>
+                            <span className="text-[10px] text-slate-500">{s.latency}ms latency</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {filteredLogs.length > 0 && (
+                    <div className="text-left">
+                      <span className="text-[10px] text-secondary-400 font-semibold uppercase block mb-1">Traffic Logs</span>
+                      <div className="space-y-1">
+                        {filteredLogs.slice(0, 5).map(l => (
+                          <button
+                            key={l.id}
+                            onClick={() => {
+                              navigate('/logs');
+                              setActiveTab('traffic');
+                              setSearchQuery('');
+                              setShowMobileSearch(false);
+                            }}
+                            className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className={`font-bold px-1.5 py-0.5 rounded text-[10px] ${
+                                l.status < 400 ? 'bg-success-500/20 text-success-400' : 'bg-danger-500/20 text-danger-400'
+                              }`}>
+                                {l.status}
+                              </span>
+                              <span className="font-mono text-slate-400">{l.method}</span>
+                              <span className="truncate">{l.route}</span>
+                            </div>
+                            <span className="text-[10px] text-slate-500">{l.responseTime}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <>
+            {/* Left Side: Mobile Menu & Product badge */}
+            <div className="flex items-center gap-2">
+              <button onClick={onMenuClick} className="lg:hidden text-slate-400 hover:text-white transition">
+                <Menu className="w-5 h-5" />
+              </button>
+              
+              {/* FuncPort badge - Brand Aura */}
+              <div className="flex items-center gap-1.5 bg-gradient-to-r from-primary-500/10 to-secondary-500/10 border border-primary-500/20 px-3 py-1 rounded-xl shadow-[0_0_20px_rgba(34,211,238,0.08)]">
+                <span className="text-base md:text-lg font-black tracking-widest bg-gradient-to-r from-primary-400 via-secondary-400 to-accent-400 bg-clip-text text-transparent uppercase font-mono">FuncPort</span>
+                <span className="text-[8px] font-bold text-primary-400 bg-primary-400/10 px-1 rounded">V2</span>
+              </div>
+            </div>
 
-        {/* Right actions */}
-        <div className="flex items-center gap-2 relative">
+            {/* Search bar */}
+            <div className="flex-1 max-w-lg mx-4 relative hidden sm:block">
+              <div className={`relative w-full transition-all duration-300 ${isSearchFocused ? 'scale-[1.01]' : ''}`}>
+                <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300 ${
+                  isSearchFocused ? 'text-primary-400' : 'text-slate-500'
+                }`} />
+                <input
+                  type="text"
+                  placeholder="Search FuncPort proxies, scenarios, logs..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
+                  className={`w-full bg-[#10182D]/85 border rounded-xl pl-9 pr-14 py-1.5 text-xs text-white 
+                              placeholder-slate-500 outline-none transition-all duration-300
+                              ${isSearchFocused 
+                                ? 'border-primary-500/50 shadow-[0_0_25px_rgba(34,211,238,0.15)]' 
+                                : 'border-white/5 hover:border-white/10'
+                              }`}
+                />
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                  <kbd className="text-[10px] text-slate-500 bg-white/5 px-1.5 py-0.5 rounded border border-white/5 font-mono">
+                    ⌘K
+                  </kbd>
+                </div>
+              </div>
+
+              {/* Search Dropdown Overlay */}
+              {searchQuery && isSearchFocused && (
+                <div className="absolute top-11 left-0 w-full bg-[#0A1020]/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-4 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-50 max-h-96 overflow-y-auto">
+                  <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Search Results</span>
+                    <button onClick={() => setSearchQuery('')} className="text-slate-500 hover:text-white">
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  
+                  {filteredScenarios.length === 0 && filteredLogs.length === 0 && (
+                    <p className="text-xs text-slate-400 py-2">No matching scenarios or logs found in FuncPort.</p>
+                  )}
+
+                  {filteredScenarios.length > 0 && (
+                    <div className="mb-4 text-left">
+                      <span className="text-[10px] text-primary-400 font-semibold uppercase block mb-1">Scenarios</span>
+                      <div className="space-y-1">
+                        {filteredScenarios.map(s => (
+                          <button
+                            key={s.id}
+                            onClick={() => {
+                              navigate('/scenarios');
+                              setActiveTab('scenarios');
+                              loadScenario(s.id);
+                              setSearchQuery('');
+                            }}
+                            className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
+                          >
+                            <span>{s.name}</span>
+                            <span className="text-[10px] text-slate-500">{s.latency}ms latency</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {filteredLogs.length > 0 && (
+                    <div className="text-left">
+                      <span className="text-[10px] text-secondary-400 font-semibold uppercase block mb-1">Traffic Logs</span>
+                      <div className="space-y-1">
+                        {filteredLogs.slice(0, 5).map(l => (
+                          <button
+                            key={l.id}
+                            onClick={() => {
+                              navigate('/logs');
+                              setActiveTab('traffic');
+                              setSearchQuery('');
+                            }}
+                            className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className={`font-bold px-1.5 py-0.5 rounded text-[10px] ${
+                                l.status < 400 ? 'bg-success-500/20 text-success-400' : 'bg-danger-500/20 text-danger-400'
+                              }`}>
+                                {l.status}
+                              </span>
+                              <span className="font-mono text-slate-400">{l.method}</span>
+                              <span className="truncate">{l.route}</span>
+                            </div>
+                            <span className="text-[10px] text-slate-500">{l.responseTime}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Right actions */}
+            <div className="flex items-center gap-2 relative">
+              {/* Search Toggle for Mobile */}
+              <button 
+                onClick={() => setShowMobileSearch(true)}
+                className="sm:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition duration-300"
+                title="Search"
+              >
+                <Search className="w-4 h-4" />
+              </button>
           
           {/* Stats Bar */}
           <div className="hidden md:flex items-center gap-3 text-[10px] text-slate-400 bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
@@ -321,9 +428,10 @@ export default function Topbar({ onMenuClick }) {
               </div>
             )} */}
           </div>
-
         </div>
-      </header>
+      </>
+    )}
+  </header>
 
       {/* AI Assistant Modal */}
       <AIAssistant isOpen={showAIAssistant} onClose={() => setShowAIAssistant(false)} />

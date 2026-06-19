@@ -70,7 +70,7 @@ export default function NetworkControls() {
   return (
     <div className="space-y-4">
       {/* Network Profile */}
-      <div className="panel-3d p-5 space-y-3 bg-[#0A1020]/90">
+      <div className="panel-3d p-6 space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-white flex items-center gap-2">
             <Wifi className="w-4 h-4 text-secondary-400" />
@@ -104,7 +104,7 @@ export default function NetworkControls() {
       </div>
 
       {/* Latency */}
-      <div className="panel-3d p-5 space-y-3 bg-[#0A1020]/90">
+      <div className="panel-3d p-6 space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-primary-400" />
@@ -130,7 +130,7 @@ export default function NetworkControls() {
       </div>
 
       {/* Error Injection */}
-      <div className="panel-3d p-5 space-y-3 bg-[#0A1020]/90">
+      <div className="panel-3d p-6 space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <AlertCircle className="w-4 h-4 text-accent-400" />
@@ -158,7 +158,7 @@ export default function NetworkControls() {
       </div>
 
       {/* Failure Rate */}
-      <div className="panel-3d p-5 space-y-3 bg-[#0A1020]/90">
+      <div className="panel-3d p-6 space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Activity className="w-4 h-4 text-warm-400" />
@@ -188,7 +188,7 @@ export default function NetworkControls() {
       </div>
 
       {/* Rate Limit */}
-      <div className="panel-3d p-5 space-y-3 bg-[#0A1020]/90">
+      <div className="panel-3d p-6 space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <BarChart3 className="w-4 h-4 text-secondary-400" />
@@ -218,7 +218,7 @@ export default function NetworkControls() {
       {/* Advanced Controls Toggle */}
       <button
         onClick={() => setShowAdvanced(!showAdvanced)}
-        className="w-full flex items-center justify-between px-4 py-2 rounded-xl bg-[#0A1020]/90 hover:bg-white/10 transition text-xs text-slate-400 hover:text-white"
+        className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:bg-white/10 transition text-xs text-slate-400 hover:text-white"
       >
         <span className="flex items-center gap-2">
           <Sliders className="w-3 h-3" />
@@ -228,7 +228,7 @@ export default function NetworkControls() {
       </button>
 
       {showAdvanced && (
-        <div className="panel-3d p-5 space-y-4 animate-slide-up bg-[#0A1020]/90">
+        <div className="panel-3d p-6 space-y-4 animate-slide-up">
           {/* Payload Multiplier */}
           <div>
             <div className="flex items-center gap-2 text-xs text-slate-400 mb-2">

@@ -124,7 +124,7 @@ export default function TrafficInspector({ mini = false }) {
   }
 
   return (
-    <div className="panel-3d h-full flex flex-col overflow-hidden bg-[#0A1020]/90">
+    <div className="panel-3d h-full flex flex-col overflow-hidden">
       {/* Header */}
       <div className="p-4 border-b border-white/5 flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-3">

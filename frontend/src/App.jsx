@@ -11,6 +11,7 @@ export default function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Playground />} />
+            <Route path="/config" element={<Playground />} />
             <Route path="/scenarios" element={<Playground />} />
             <Route path="/logs" element={<Playground />} />
             <Route path="/stress" element={<Playground />} />
