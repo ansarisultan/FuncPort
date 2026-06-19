@@ -157,9 +157,9 @@ export function DummyDataGeneratorConfig() {
   }
 
   return (
-    <div className="panel-3d p-4 space-y-4 bg-[#0A1020]/90">
-      <div className="flex items-center gap-2 border-b border-white/5 pb-2">
-        <Database className="w-4 h-4 text-primary-400" />
+    <div className="panel-3d p-4 space-y-4 bg-[#0A1020]">
+      <div className="flex items-center gap-2 border-b border-[#1E293B]/60 pb-2">
+        <Database className="w-4 h-4 text-[#06B6D4]" />
         <h4 className="text-sm font-semibold text-white">Generator Setup</h4>
       </div>
 
@@ -206,7 +206,7 @@ export function DummyDataGeneratorConfig() {
         </div>
       </div>
 
-      <div className="space-y-2 pt-2 border-t border-white/5">
+      <div className="space-y-2 pt-2 border-t border-[#1E293B]/60">
         <button
           onClick={generateData}
           className="w-full btn-3d text-xs py-2 flex items-center justify-center gap-2"
@@ -218,9 +218,9 @@ export function DummyDataGeneratorConfig() {
         <button
           onClick={handleDownload}
           disabled={!generatorData}
-          className="w-full btn-3d text-xs py-2 flex items-center justify-center gap-2 bg-gradient-to-r from-success-500/80 to-success-600 border-success-500/30 hover:border-success-400/50 disabled:opacity-50"
+          className="w-full btn-3d text-xs py-2 flex items-center justify-center gap-2 bg-[#22C55E]/10 text-[#22C55E] border-[#22C55E]/20 hover:bg-[#22C55E]/20 disabled:opacity-50"
         >
-          <Download className="w-3.5 h-3.5" />
+          <Download className="w-3.5 h-3.5 text-[#22C55E]" />
           Download Data File
         </button>
 
@@ -229,7 +229,7 @@ export function DummyDataGeneratorConfig() {
           disabled={!generatorData}
           className="w-full btn-3d text-xs py-2 flex items-center justify-center gap-2 bg-white/5 border-white/5 hover:bg-white/10 disabled:opacity-50"
         >
-          {copied ? <Check className="w-3.5 h-3.5 text-success-400" /> : <Copy className="w-3.5 h-3.5" />}
+          {copied ? <Check className="w-3.5 h-3.5 text-[#22C55E]" /> : <Copy className="w-3.5 h-3.5" />}
           Copy Clipboard
         </button>
       </div>
@@ -241,12 +241,12 @@ export function DummyDataGeneratorPreview() {
   const { generatorFormat, generatorData } = useStore();
 
   return (
-    <div className="panel-3d p-4 h-full flex flex-col bg-[#0A1020]/90 overflow-hidden">
-      <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-3">
+    <div className="panel-3d p-4 h-full flex flex-col bg-[#0A1020] overflow-hidden">
+      <div className="flex items-center justify-between border-b border-[#1E293B]/60 pb-2 mb-3">
         <h4 className="text-sm font-semibold text-white">Schema Preview</h4>
-        <span className="text-[10px] text-primary-400 font-mono font-semibold uppercase">{generatorFormat}</span>
+        <span className="text-[10px] text-[#06B6D4] font-mono font-semibold uppercase">{generatorFormat}</span>
       </div>
-      <div className="flex-1 min-h-0 bg-[#10182D]/70 rounded-lg border border-white/5 overflow-hidden flex flex-col">
+      <div className="flex-1 min-h-0 bg-[#050816]/70 rounded-lg border border-[#1E293B]/40 overflow-hidden flex flex-col">
         <textarea
           readOnly
           value={generatorData || '// Click "Generate Schema" in setup to view dummy data'}

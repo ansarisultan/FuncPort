@@ -5,7 +5,7 @@ import {
   Zap, Sparkles, Shield, Globe,
   Plus, FolderOpen, Clock, BarChart3,
   ChevronDown, ChevronRight, Cpu,
-  Loader2, Terminal, GitBranch, Database
+  Loader2, Terminal, GitBranch, Database, X
 } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 
@@ -23,17 +23,22 @@ export default function Sidebar({ onClose }) {
   const navigate = useNavigate();
 
   return (
-    <aside className="h-full flex flex-col py-4 px-3 bg-[#0A1020]/95 backdrop-blur-2xl border-r border-white/5 shadow-2xl">
+    <aside className="h-full flex flex-col py-4 px-3 bg-[#0A1020]/95 backdrop-blur-2xl border-r border-[#1E293B]/60 shadow-2xl">
       {/* Brand - FuncLexa Style */}
-     <div className="flex items-center gap-3 px-3 mb-8 preserve-3d">
-        <img src="/logo.png" alt="FuncLexa Logo" className="w-12 h-12 object-contain flex-shrink-0" />
-        <div>
-          <span className="text-4xl font-bold text-gradient-animated-funclexa block leading-none">FuncLexa</span>
-          <span className="text-[10px] font-normal text-slate-400 tracking-wider uppercase mt-1 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-ping" />
-            FuncPort • Network
-          </span>
+      <div className="flex items-center justify-between mb-8 px-3">
+        <div className="flex items-center gap-3 preserve-3d">
+          <img src="/logo.png" alt="FuncLexa Logo" className="w-12 h-12 object-contain flex-shrink-0" />
+          <div>
+            <span className="text-4xl font-bold text-gradient-animated-funclexa block leading-none">FuncLexa</span>
+            <span className="text-[10px] font-normal text-slate-400 tracking-wider uppercase mt-1 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-ping" />
+              FuncPort • Network
+            </span>
+          </div>
         </div>
+        <button onClick={onClose} className="lg:hidden text-slate-500 hover:text-white transition p-1.5 rounded-lg bg-white/5 border border-white/5">
+          <X className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Status Bar */}

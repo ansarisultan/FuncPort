@@ -152,24 +152,41 @@ export default function StressTest() {
 
       {/* Control Button */}
       {stressTestActive ? (
-        <div className="space-y-2">
+        <div className="space-y-3">
           <button
             onClick={handleStop}
             className="w-full btn-3d-secondary flex items-center justify-center gap-2 py-2 text-xs"
           >
-            <Square className="w-4 h-4 fill-white" />
+            <Square className="w-3.5 h-3.5 fill-white" />
             Stop Stress Test
           </button>
           
+          {/* Real-time Load Activity Visualizer */}
+          <div className="flex items-end justify-center gap-1 h-12 bg-[#050816] rounded-lg p-2 border border-[#1E293B]/60">
+            {[...Array(18)].map((_, i) => {
+              const height = 10 + Math.floor(Math.sin((simulatedProgress + i) * 0.9) * 15) + Math.floor(Math.random() * 10);
+              return (
+                <div 
+                  key={i} 
+                  className="w-1 bg-[#06B6D4] rounded-t transition-all duration-300 sparkline-anim"
+                  style={{ height: `${Math.max(4, Math.min(32, height))}px` }}
+                />
+              );
+            })}
+          </div>
+
           {/* Progress bar */}
           <div className="space-y-1">
             <div className="flex justify-between text-[10px] text-slate-400">
-              <span>Simulating load...</span>
-              <span>{Math.round(simulatedProgress)}%</span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4] animate-pulse" />
+                Injecting concurrent requests...
+              </span>
+              <span className="font-mono">{Math.round(simulatedProgress)}%</span>
             </div>
             <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-primary-500 to-secondary-500 transition-all duration-300" 
+                className="h-full bg-gradient-to-r from-[#06B6D4] to-[#3B82F6] transition-all duration-300" 
                 style={{ width: `${simulatedProgress}%` }}
               />
             </div>
@@ -188,28 +205,28 @@ export default function StressTest() {
 
       {/* Results */}
       {stressTestResults && (
-        <div className="p-3 bg-white/5 rounded-xl border border-white/5 space-y-3 animate-slide-up">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-success-400">
-            <CheckCircle2 className="w-4 h-4" />
+        <div className="p-3 bg-[#050816]/60 rounded-xl border border-[#1E293B]/60 space-y-3 animate-slide-up">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-[#22C55E]">
+            <CheckCircle2 className="w-4 h-4 text-[#22C55E]" />
             <span>Test Completed</span>
           </div>
 
           <div className="grid grid-cols-2 gap-2 text-center">
-            <div className="bg-black/35 p-2 rounded-lg">
-              <div className="text-[9px] text-slate-400">Success Rate</div>
-              <div className="text-base font-bold text-white">{stressTestResults.successRate}%</div>
+            <div className="bg-[#0A1020] p-2 rounded-lg border border-[#1E293B]/40">
+              <div className="text-[9px] text-slate-400 uppercase tracking-wider font-bold">Success Rate</div>
+              <div className="text-base font-bold font-mono text-[#22C55E] mt-0.5">{stressTestResults.successRate}%</div>
             </div>
-            <div className="bg-black/35 p-2 rounded-lg">
-              <div className="text-[9px] text-slate-400">Avg Latency</div>
-              <div className="text-base font-bold text-white">{stressTestResults.avgLatency}ms</div>
+            <div className="bg-[#0A1020] p-2 rounded-lg border border-[#1E293B]/40">
+              <div className="text-[9px] text-slate-400 uppercase tracking-wider font-bold">Avg Latency</div>
+              <div className="text-base font-bold font-mono text-[#F59E0B] mt-0.5">{stressTestResults.avgLatency}ms</div>
             </div>
-            <div className="bg-black/35 p-2 rounded-lg">
-              <div className="text-[9px] text-slate-400">P95 Latency</div>
-              <div className="text-base font-bold text-white">{stressTestResults.p95Latency}ms</div>
+            <div className="bg-[#0A1020] p-2 rounded-lg border border-[#1E293B]/40">
+              <div className="text-[9px] text-slate-400 uppercase tracking-wider font-bold">P95 Latency</div>
+              <div className="text-base font-bold font-mono text-[#F59E0B] mt-0.5">{stressTestResults.p95Latency}ms</div>
             </div>
-            <div className="bg-black/35 p-2 rounded-lg">
-              <div className="text-[9px] text-slate-400">Failed Req</div>
-              <div className="text-base font-bold text-accent-400">{stressTestResults.errors}</div>
+            <div className="bg-[#0A1020] p-2 rounded-lg border border-[#1E293B]/40">
+              <div className="text-[9px] text-slate-400 uppercase tracking-wider font-bold">Failed Req</div>
+              <div className="text-base font-bold font-mono text-[#EF4444] mt-0.5">{stressTestResults.errors}</div>
             </div>
           </div>
         </div>

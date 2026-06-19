@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore';
 import { useProxy } from '../hooks/useProxy';
 import { useTraffic } from '../hooks/useTraffic';
@@ -36,6 +36,7 @@ export default function Playground() {
   // Call useProxy to ensure dynamic configuration sync effect remains mounted & active at all times
   useProxy();
 
+  const navigate = useNavigate();
   const { trafficLogs } = useTraffic();
   const [isRightPanelOpen, setIsRightPanelOpen] = useState(true);
   const [isLeftPanelOpen, setIsLeftPanelOpen] = useState(true);
@@ -43,6 +44,7 @@ export default function Playground() {
   const location = useLocation();
 
   const getLeftColSpanClass = () => {
+    if (activeTab === 'traffic') return 'hidden';
     if (!isLeftPanelOpen) return 'hidden';
     if (isPlaceholderCollapsed && !isProxyActive && activeTab !== 'traffic' && activeTab !== 'generator') {
       const showRightPanel = isRightPanelOpen && activeTab !== 'traffic' && activeTab !== 'generator';
@@ -52,6 +54,7 @@ export default function Playground() {
   };
 
   const getCenterColSpanClass = () => {
+    if (activeTab === 'traffic') return 'lg:col-span-12';
     const showPlaceholder = !isProxyActive && activeTab !== 'traffic' && activeTab !== 'generator';
     if (showPlaceholder && isPlaceholderCollapsed) return 'hidden';
     
@@ -171,12 +174,12 @@ export default function Playground() {
   };
 
   const tabs = [
-    { id: 'config', label: 'Configuration', icon: Settings },
-    { id: 'network', label: 'Network Controls', icon: Network },
-    { id: 'traffic', label: 'Traffic Inspector', icon: Activity },
-    { id: 'scenarios', label: 'Scenarios', icon: FileText },
-    { id: 'stress', label: 'Stress Test', icon: Loader2 },
-    { id: 'generator', label: 'Data Generator', icon: Database },
+    { id: 'config', label: 'Configuration', icon: Settings, to: '/' },
+    { id: 'network', label: 'Network Controls', icon: Network, to: '/' },
+    { id: 'traffic', label: 'Traffic Inspector', icon: Activity, to: '/logs' },
+    { id: 'scenarios', label: 'Scenarios', icon: FileText, to: '/scenarios' },
+    { id: 'stress', label: 'Stress Test', icon: Loader2, to: '/stress' },
+    { id: 'generator', label: 'Data Generator', icon: Database, to: '/generator' },
   ];
 
   useEffect(() => {
@@ -189,7 +192,9 @@ export default function Playground() {
     } else if (location.pathname === '/generator') {
       setActiveTab('generator');
     } else if (location.pathname === '/') {
-      setActiveTab('config');
+      if (activeTab !== 'network' && activeTab !== 'config') {
+        setActiveTab('config');
+      }
     }
   }, [location.pathname, setActiveTab]);
 
@@ -206,40 +211,44 @@ export default function Playground() {
   };
 
   return (
-    <div className={`w-full flex flex-col ${isFullscreen ? 'fixed inset-0 z-50 bg-[#050816] p-4 h-screen' : 'h-full lg:h-[calc(100vh-5.5rem)] lg:overflow-hidden'}`}>
-      <div className="flex flex-col h-full gap-4">
+    <div className={`w-full flex flex-col relative overflow-hidden ${isFullscreen ? 'fixed inset-0 z-50 bg-[#050816] p-4 h-screen' : 'h-full lg:h-[calc(100vh-5.5rem)] lg:overflow-hidden'}`}>
+      {/* Background Grid Pattern & Radial Glows */}
+      <div className="absolute inset-0 bg-cyber-grid pointer-events-none opacity-40 z-0" />
+      <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-[#06B6D4]/5 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-indigo-500/3 rounded-full blur-[100px] pointer-events-none z-0" />
+
+      <div className="flex flex-col h-full gap-4 z-10 relative">
         {/* Header with Gradient */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-500/10 via-secondary-500/5 to-transparent border border-white/5 p-4 shadow-xl">
-          <div className="absolute top-0 right-0 w-48 h-48 bg-primary-500/10 rounded-full blur-3xl animate-float-slow" />
-          <div className="absolute bottom-0 left-0 w-32 h-32 bg-secondary-500/10 rounded-full blur-3xl animate-float-medium" />
+        <div className="relative overflow-hidden rounded-2xl bg-[#0A1020] border border-[#1E293B]/60 p-4 shadow-xl">
+          <div className="absolute top-0 right-0 w-48 h-48 bg-[#06B6D4]/5 rounded-full blur-3xl animate-float-slow" />
           
           <div className="relative flex items-center justify-between flex-wrap gap-3">
             <div>
               <h1 className="text-xl font-bold flex items-center gap-3">
-                <Network className="w-5 h-5 text-primary-400" />
+                <Network className="w-5 h-5 text-[#06B6D4]" />
                 <span className="text-gradient-animated-funclexa">FuncPort Playground</span>
                 {isProxyActive && (
-                  <span className="text-xs font-normal text-success-400 bg-success-500/20 px-3 py-1 rounded-full border border-success-500/20 flex items-center gap-2 animate-pulse">
+                  <span className="text-xs font-normal text-[#22C55E] bg-[#22C55E]/10 px-3 py-1 rounded-full border border-[#22C55E]/20 flex items-center gap-2 animate-pulse">
                     <Activity className="w-3 h-3" />
                     Active
                   </span>
                 )}
               </h1>
               <p className="text-sm text-slate-400 mt-1 flex items-center gap-2">
-                <Shield className="w-3.5 h-3.5 text-primary-400" />
+                <Shield className="w-3.5 h-3.5 text-[#06B6D4]" />
                 FuncPort Network Simulator • {trafficLogs.length} requests logged
               </p>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={handleExportBackup}
-                className="btn-3d flex items-center gap-1.5 text-xs px-3 py-2 bg-white/5 border-white/5 hover:bg-white/10"
+                className="btn-3d flex items-center gap-1.5 text-xs px-3 py-2"
                 title="Export JSON Backup"
               >
                 <Download className="w-3.5 h-3.5" />
                 Export Backup
               </button>
-              <label className="btn-3d flex items-center gap-1.5 text-xs px-3 py-2 bg-white/5 border-white/5 hover:bg-white/10 cursor-pointer" title="Import JSON Backup">
+              <label className="btn-3d flex items-center gap-1.5 text-xs px-3 py-2 cursor-pointer" title="Import JSON Backup">
                 <Upload className="w-3.5 h-3.5" />
                 Import Backup
                 <input
@@ -260,99 +269,127 @@ export default function Playground() {
           </div>
         </div>
 
-        {/* Real-time Infrastructure Widgets - Ultra-compact Developer Grid
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-          <div className="panel-3d py-1.5 px-2.5 flex items-center justify-between bg-[#0A1020]/90 border-white/5 hover:border-primary-500/10 transition-all duration-300">
-            <div className="min-w-0">
-              <span className="text-[9px] text-slate-400 uppercase font-semibold tracking-wider block">Latency</span>
-              <div className="flex items-baseline gap-1 mt-0.5">
-                <span className="text-sm font-bold font-mono text-[#22D3EE]">{latency}</span>
-                <span className="text-[9px] text-slate-500">ms</span>
-              </div>
+        {/* Real-time Infrastructure Metrics Bar */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+          {/* Card 1: Latency */}
+          <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020] border-[#1E293B]/60 hover:border-[#F59E0B]/30 transition-all duration-300">
+            <div className="flex justify-between items-start">
+              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">LATENCY</span>
+              <Clock className="w-3.5 h-3.5 text-[#F59E0B]" />
             </div>
-            <Clock className="w-4 h-4 text-[#22D3EE]/60 flex-shrink-0" />
+            <div className="flex items-end justify-between mt-1">
+              <div className="flex items-baseline gap-0.5">
+                <span className="text-lg font-bold font-mono text-[#F59E0B]">{latency}</span>
+                <span className="text-[10px] text-slate-500 font-mono">ms</span>
+              </div>
+              <svg className="w-14 h-5 text-[#F59E0B]/50" viewBox="0 0 100 30" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M0,25 L10,22 L20,28 L30,15 L40,18 L50,10 L60,25 L70,8 L80,12 L90,5 L100,15" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
           </div>
 
-          <div className="panel-3d py-1.5 px-2.5 flex items-center justify-between bg-[#0A1020]/90 border-white/5 hover:border-danger-500/10 transition-all duration-300">
-            <div className="min-w-0">
-              <span className="text-[9px] text-slate-400 uppercase font-semibold tracking-wider block">Fail Rate</span>
-              <div className="flex items-baseline gap-1 mt-0.5">
-                <span className="text-sm font-bold font-mono text-[#EF4444]">{failureRate}</span>
-                <span className="text-[9px] text-slate-500">%</span>
-              </div>
+          {/* Card 2: Fail Rate */}
+          <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020] border-[#1E293B]/60 hover:border-[#EF4444]/30 transition-all duration-300">
+            <div className="flex justify-between items-start">
+              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">FAIL RATE</span>
+              <AlertCircle className="w-3.5 h-3.5 text-[#EF4444]" />
             </div>
-            <AlertCircle className="w-4 h-4 text-[#EF4444]/60 flex-shrink-0" />
+            <div className="flex items-end justify-between mt-1">
+              <div className="flex items-baseline gap-0.5">
+                <span className="text-lg font-bold font-mono text-[#EF4444]">{failureRate}</span>
+                <span className="text-[10px] text-slate-500 font-mono">%</span>
+              </div>
+              <svg className="w-14 h-5 text-[#EF4444]/50" viewBox="0 0 100 30" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M0,28 L10,28 L20,28 L30,22 L40,28 L50,28 L60,15 L70,28 L80,28 L90,20 L100,28" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
           </div>
 
-          <div className="panel-3d py-1.5 px-2.5 flex items-center justify-between bg-[#0A1020]/90 border-white/5 hover:border-accent-500/10 transition-all duration-300">
-            <div className="min-w-0">
-              <span className="text-[9px] text-slate-400 uppercase font-semibold tracking-wider block">Error Inject</span>
-              <span className={`text-xs font-bold font-mono block mt-0.5 ${errorCode !== 'none' ? 'text-[#EF4444]' : 'text-slate-400'}`}>
-                {errorCode === 'none' ? 'None' : errorCode}
+          {/* Card 3: Error Inject */}
+          <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020] border-[#1E293B]/60 hover:border-red-500/30 transition-all duration-300">
+            <div className="flex justify-between items-start">
+              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">ERROR INJECT</span>
+              <Shield className="w-3.5 h-3.5 text-red-500" />
+            </div>
+            <div className="flex items-end justify-between mt-1">
+              <span className={`text-xs font-bold font-mono truncate ${errorCode !== 'none' ? 'text-[#EF4444]' : 'text-slate-400'}`}>
+                {errorCode === 'none' ? 'NONE' : errorCode}
+              </span>
+              <div className={`w-2 h-2 rounded-full ${errorCode !== 'none' ? 'bg-[#EF4444] animate-pulse' : 'bg-slate-700'}`} />
+            </div>
+          </div>
+
+          {/* Card 4: Throughput */}
+          <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020] border-[#1E293B]/60 hover:border-[#06B6D4]/30 transition-all duration-300">
+            <div className="flex justify-between items-start">
+              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">TRAFFIC</span>
+              <Activity className="w-3.5 h-3.5 text-[#06B6D4]" />
+            </div>
+            <div className="flex items-end justify-between mt-1">
+              <div className="flex items-baseline gap-0.5">
+                <span className="text-lg font-bold font-mono text-[#06B6D4]">{trafficLogs.length}</span>
+                <span className="text-[10px] text-slate-500 font-mono">reqs</span>
+              </div>
+              <svg className="w-14 h-5 text-[#06B6D4]/50" viewBox="0 0 100 30" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M0,28 Q15,5 30,25 T60,10 T90,20 L100,5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Card 5: Proxy State */}
+          <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020] border-[#1E293B]/60 hover:border-[#22C55E]/30 transition-all duration-300 col-span-2 sm:col-span-1">
+            <div className="flex justify-between items-start">
+              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">PROXY STATE</span>
+              <Globe className="w-3.5 h-3.5 text-[#22C55E]" />
+            </div>
+            <div className="flex items-end justify-between mt-1">
+              <span className={`text-xs font-bold font-mono uppercase ${isProxyActive ? 'text-[#22C55E]' : 'text-slate-500'}`}>
+                {isProxyActive ? 'ACTIVE' : 'STANDBY'}
+              </span>
+              <span className={`relative flex h-2 w-2`}>
+                {isProxyActive && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#22C55E] opacity-75"></span>}
+                <span className={`relative inline-flex rounded-full h-2 w-2 ${isProxyActive ? 'bg-[#22C55E]' : 'bg-slate-600'}`}></span>
               </span>
             </div>
-            <Shield className="w-4 h-4 text-[#6366F1]/60 flex-shrink-0" />
-          </div>
-
-          <div className="panel-3d py-1.5 px-2.5 flex items-center justify-between bg-[#0A1020]/90 border-white/5 hover:border-secondary-500/10 transition-all duration-300">
-            <div className="min-w-0">
-              <span className="text-[9px] text-slate-400 uppercase font-semibold tracking-wider block">Traffic</span>
-              <div className="flex items-baseline gap-1 mt-0.5">
-                <span className="text-sm font-bold font-mono text-[#3B82F6]">{trafficStats?.total || 0}</span>
-                <span className="text-[9px] text-slate-500">reqs</span>
-              </div>
-            </div>
-            <Activity className="w-4 h-4 text-[#3B82F6]/60 flex-shrink-0" />
-          </div>
-
-          <div className="panel-3d py-1.5 px-2.5 flex items-center justify-between bg-[#0A1020]/90 border-white/5 hover:border-success-500/10 transition-all duration-300 col-span-2 sm:col-span-1">
-            <div className="min-w-0">
-              <span className="text-[9px] text-slate-400 uppercase font-semibold tracking-wider block">Proxy</span>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span className={`w-1.5 h-1.5 rounded-full ${isProxyActive ? 'bg-[#22C55E] animate-pulse' : 'bg-slate-600'}`} />
-                <span className="text-xs font-bold text-white uppercase truncate">
-                  {isProxyActive ? 'Active' : 'Standby'}
-                </span>
-              </div>
-            </div>
-            <Globe className="w-4 h-4 text-[#22C55E]/60 flex-shrink-0" />
           </div>
         </div>
-        */}
 
         {/* Tabs */}
-        <div className="flex items-center gap-1 bg-[#0A1020] rounded-xl p-1 border border-white/5 w-fit flex-wrap">
+        <div className="flex items-center gap-1 bg-[#0A1020] rounded-xl p-1 border border-[#1E293B]/60 w-full lg:w-fit overflow-x-auto no-scrollbar scrollbar-none flex-nowrap lg:flex-wrap">
           {tabs.map(tab => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+              onClick={() => {
+                setActiveTab(tab.id);
+                navigate(tab.to);
+              }}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-300 ${
                 activeTab === tab.id
                   ? 'bg-gradient-to-r from-primary-500/20 to-secondary-500/20 text-primary-400 border border-white/10'
                   : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
-              <tab.icon className="w-4 h-4" />
+              <tab.icon className="w-3.5 h-3.5" />
               {tab.label}
             </button>
           ))}
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 min-h-0 lg:overflow-hidden">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 min-h-0 lg:overflow-hidden relative">
           {/* Left Panel Toggle */}
           <button
             onClick={() => setIsLeftPanelOpen(!isLeftPanelOpen)}
-            className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-r-xl bg-[#0A1020] border border-white/5 hover:border-white/10 transition"
+            className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-r-xl bg-[#0A1020] border border-[#1E293B]/60 hover:border-white/10 transition"
           >
             {isLeftPanelOpen ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
           </button>
-
+ 
           {/* Left Panel */}
-          {isLeftPanelOpen && (
+          {isLeftPanelOpen && activeTab !== 'traffic' && (
             <div className={`${getLeftColSpanClass()} space-y-4 overflow-y-auto pr-2 h-full pb-8 lg:pb-0 transition-all duration-300`}>
               {isPlaceholderCollapsed && !isProxyActive && activeTab !== 'traffic' && activeTab !== 'generator' && (
-                <div className="p-3 bg-primary-500/10 border border-white/5 rounded-xl flex items-center justify-between text-xs text-slate-300 mb-4 animate-slide-up">
+                <div className="p-3 bg-primary-500/10 border border-[#1E293B]/60 rounded-xl flex items-center justify-between text-xs text-slate-300 mb-4 animate-slide-up">
                   <span className="flex items-center gap-2">
                     <SplitSquareHorizontal className="w-4 h-4 text-primary-400" />
                     <span>Workspace center is collapsed. Panel is expanded.</span>
@@ -368,24 +405,24 @@ export default function Playground() {
               {renderTabContent()}
             </div>
           )}
-
+ 
           {/* Center - Traffic or Placeholder */}
-          <div className={`${getCenterColSpanClass()} h-full flex flex-col min-h-[400px] lg:min-h-0 transition-all duration-300`}>
+          <div className={`${getCenterColSpanClass()} h-full flex flex-col min-h-[400px] lg:min-h-0 transition-all duration-300 ${activeTab === 'traffic' || activeTab === 'generator' ? 'block' : 'hidden lg:block'}`}>
             {activeTab === 'traffic' || (isProxyActive && activeTab !== 'generator') ? (
               <TrafficInspector />
             ) : activeTab === 'generator' ? (
-              <DummyDataGeneratorPreview />
+                <DummyDataGeneratorPreview />
             ) : (
-              <div className="panel-3d h-full p-6 flex flex-col items-center justify-center bg-[#0A1020]/40 relative overflow-hidden group border-white/5">
+              <div className="panel-3d h-full p-6 flex flex-col items-center justify-center bg-[#0A1020]/40 relative overflow-hidden group border-[#1E293B]/60">
                 <button
                   onClick={() => setIsPlaceholderCollapsed(true)}
-                  className="absolute top-4 right-4 p-2 rounded-xl bg-white/5 hover:bg-white/10 transition border border-white/5 hover:scale-105 duration-300 text-xs text-slate-400 hover:text-white flex items-center gap-1.5"
+                  className="absolute top-4 right-4 p-2 rounded-xl bg-white/5 hover:bg-white/10 transition border border-[#1E293B]/60 hover:scale-105 duration-300 text-xs text-slate-400 hover:text-white flex items-center gap-1.5"
                   title="Collapse workspace placeholder and expand settings"
                 >
                   <Minimize2 className="w-3.5 h-3.5" />
                   <span>Collapse & Expand Panel</span>
                 </button>
-
+ 
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-4">
                     <Network className="w-8 h-8 text-slate-500" />
@@ -405,18 +442,18 @@ export default function Playground() {
               </div>
             )}
           </div>
-
+ 
           {/* Right Panel Toggle */}
           <button
             onClick={() => setIsRightPanelOpen(!isRightPanelOpen)}
-            className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-l-xl bg-[#0A1020] border border-white/5 hover:border-white/10 transition"
+            className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-l-xl bg-[#0A1020] border border-[#1E293B]/60 hover:border-white/10 transition"
           >
             {isRightPanelOpen ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
-
+ 
           {/* Right Panel - Traffic Mini */}
           {isRightPanelOpen && activeTab !== 'traffic' && activeTab !== 'generator' && !isProxyActive && (
-            <div className="lg:col-span-3 panel-3d p-4 overflow-y-auto bg-[#0A1020]/90 h-full">
+            <div className="hidden lg:block lg:col-span-3 panel-3d p-4 overflow-y-auto bg-[#0A1020]/90 h-full">
               <TrafficInspector mini />
             </div>
           )}

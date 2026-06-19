@@ -44,26 +44,24 @@ export default function TrafficInspector({ mini = false }) {
   };
 
   const getStatusColor = (status) => {
-    if (status < 300) return 'text-success-400';
-    if (status < 400) return 'text-warm-400';
-    if (status < 500) return 'text-accent-400';
-    return 'text-red-400';
+    if (status < 300) return 'text-[#22C55E]';
+    if (status < 400) return 'text-[#F59E0B]';
+    return 'text-[#EF4444]';
   };
 
   const getStatusBg = (status) => {
-    if (status < 300) return 'bg-success-500/10 border-success-500/20';
-    if (status < 400) return 'bg-warm-500/10 border-warm-500/20';
-    if (status < 500) return 'bg-accent-500/10 border-accent-500/20';
-    return 'bg-red-500/10 border-red-500/20';
+    if (status < 300) return 'bg-[#22C55E]/10 border-[#22C55E]/20';
+    if (status < 400) return 'bg-[#F59E0B]/10 border-[#F59E0B]/20';
+    return 'bg-[#EF4444]/10 border-[#EF4444]/20';
   };
 
   const getMethodColor = (method) => {
     switch(method) {
-      case 'GET': return 'text-primary-400';
-      case 'POST': return 'text-secondary-400';
-      case 'PUT': return 'text-warm-400';
-      case 'DELETE': return 'text-accent-400';
-      case 'PATCH': return 'text-success-400';
+      case 'GET': return 'text-[#06B6D4]';
+      case 'POST': return 'text-[#3B82F6]';
+      case 'PUT': return 'text-[#F59E0B]';
+      case 'DELETE': return 'text-[#EF4444]';
+      case 'PATCH': return 'text-[#22C55E]';
       default: return 'text-slate-400';
     }
   };
@@ -198,40 +196,40 @@ export default function TrafficInspector({ mini = false }) {
       </div>
 
       {/* Stats */}
-      <div className="px-4 py-2 border-b border-white/5 flex flex-wrap items-center gap-4 text-xs">
+      <div className="px-4 py-2 border-b border-[#1E293B] flex flex-wrap items-center gap-4 text-xs bg-[#050816]/50">
         <span className="flex items-center gap-1">
           <span className="text-slate-400">Total:</span>
-          <span className="text-white font-mono">{stats.total}</span>
+          <span className="text-[#06B6D4] font-mono font-bold">{stats.total}</span>
         </span>
         <span className="flex items-center gap-1">
-          <span className="text-success-400">●</span>
+          <span className="text-[#22C55E]">●</span>
           <span className="text-slate-400">Success:</span>
-          <span className="text-success-400 font-mono">{stats.success}</span>
+          <span className="text-[#22C55E] font-mono font-bold">{stats.success}</span>
         </span>
         <span className="flex items-center gap-1">
-          <span className="text-accent-400">●</span>
+          <span className="text-[#EF4444]">●</span>
           <span className="text-slate-400">Errors:</span>
-          <span className="text-accent-400 font-mono">{stats.errors}</span>
+          <span className="text-[#EF4444] font-mono font-bold">{stats.errors}</span>
         </span>
         <span className="flex items-center gap-1">
           <span className="text-slate-400">Rate:</span>
-          <span className="text-white font-mono">{stats.successRate}%</span>
+          <span className="text-slate-200 font-mono font-bold">{stats.successRate}%</span>
         </span>
         <span className="flex items-center gap-1">
           <span className="text-slate-400">Avg:</span>
-          <span className="text-white font-mono">{stats.avgResponseTime}ms</span>
+          <span className="text-[#F59E0B] font-mono font-bold">{stats.avgResponseTime}ms</span>
         </span>
         <span className="flex items-center gap-1">
           <span className="text-slate-400">RPS:</span>
-          <span className="text-white font-mono">{stats.requestsPerSecond || 0}</span>
+          <span className="text-[#06B6D4] font-mono font-bold">{stats.requestsPerSecond || 0}</span>
         </span>
       </div>
 
       {/* Logs List */}
-      <div className="flex-1 overflow-y-auto p-2 space-y-1">
+      <div className="flex-1 overflow-y-auto p-2 space-y-1 bg-[#050816]/30">
         {filteredLogs.length === 0 ? (
           <div className="text-center py-12">
-            <Activity className="w-12 h-12 text-slate-600 mx-auto mb-3" />
+            <Activity className="w-12 h-12 text-slate-700 mx-auto mb-3" />
             <p className="text-slate-400">No traffic logged yet</p>
             <p className="text-xs text-slate-500">Make requests to your proxy to see them here</p>
           </div>
@@ -239,10 +237,10 @@ export default function TrafficInspector({ mini = false }) {
           filteredLogs.map(log => (
             <div
               key={log.id}
-              className={`rounded-xl border transition-all duration-200 ${
+              className={`rounded-lg border transition-all duration-200 ${
                 selectedLog?.id === log.id 
-                  ? 'border-primary-500/30 bg-primary-500/5' 
-                  : 'border-white/5 hover:border-white/10 bg-white/5 hover:bg-white/10'
+                  ? 'border-[#06B6D4]/40 bg-[#06B6D4]/5 glow-active' 
+                  : 'border-[#1E293B]/60 hover:border-[#1E293B] bg-[#0A1020]'
               }`}
             >
               <div
