@@ -51,7 +51,7 @@ Current Configuration:
     if (!apiKey) {
       const errorMsg = 'Groq API key not configured. Please add VITE_GROQ_API_KEY to your environment variables.';
       setError(errorMsg);
-      setMessages(prev => [...prev, { role: 'assistant', content: `⚠️ ${errorMsg}` }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: `Error: ${errorMsg}` }]);
       return;
     }
 
@@ -115,7 +115,7 @@ Current Configuration:
       setError(error.message);
       setMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: `⚠️ Error: ${error.message || 'Something went wrong. Please try again.'}` 
+        content: `Error: ${error.message || 'Something went wrong. Please try again.'}` 
       }]);
     } finally {
       setIsProcessing(false);

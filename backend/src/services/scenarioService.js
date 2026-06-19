@@ -31,17 +31,18 @@ class ScenarioService {
   }
 
   async createScenario(scenarioData) {
+    const config = scenarioData.networkConfig || {};
     const scenario = {
       id: uuidv4(),
       name: scenarioData.name || 'Unnamed Scenario',
       description: scenarioData.description || '',
       networkConfig: {
-        latency: scenarioData.latency || 0,
-        errorCode: scenarioData.errorCode || 'none',
-        failureRate: scenarioData.failureRate || 0,
-        rateLimit: scenarioData.rateLimit || 'none',
-        networkProfile: scenarioData.networkProfile || 'custom',
-        payloadMultiplier: scenarioData.payloadMultiplier || 1,
+        latency: config.latency ?? scenarioData.latency ?? 0,
+        errorCode: config.errorCode ?? scenarioData.errorCode ?? 'none',
+        failureRate: config.failureRate ?? scenarioData.failureRate ?? 0,
+        rateLimit: config.rateLimit ?? scenarioData.rateLimit ?? 'none',
+        networkProfile: config.networkProfile ?? scenarioData.networkProfile ?? 'custom',
+        payloadMultiplier: config.payloadMultiplier ?? scenarioData.payloadMultiplier ?? 1,
       },
       schemaMutations: scenarioData.schemaMutations || {},
       createdAt: new Date().toISOString(),

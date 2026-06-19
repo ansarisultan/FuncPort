@@ -131,19 +131,23 @@ export default function Sidebar({ onClose }) {
   return (
     <aside className="h-full flex flex-col py-4 px-3 bg-[#0A1020]/95 backdrop-blur-2xl border-r border-[#1E293B]/60 shadow-2xl">
       {/* Brand - FuncLexa Style */}
-      <div className="flex items-center justify-between mb-8 px-3">
+      <div className="flex items-center justify-between mb-8 px-3 relative">
         <div className="flex items-center gap-3 preserve-3d">
           <img src="/logo.png" alt="FuncLexa Logo" className="w-12 h-12 object-contain flex-shrink-0" />
           <div>
-            <span className="text-4xl font-bold text-gradient-animated-funclexa block leading-none">FuncLexa</span>
+            <span className="text-3xl font-bold text-gradient-animated-funclexa block leading-none">FuncLexa</span>
             <span className="text-[10px] font-normal text-slate-400 tracking-wider uppercase mt-1 flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-ping" />
               FuncPort • Network
             </span>
           </div>
         </div>
-        <button onClick={onClose} className="lg:hidden text-slate-500 hover:text-white transition p-1.5 rounded-lg bg-white/5 border border-white/5">
-          <X className="w-4 h-4" />
+        {/* Absolute Mobile Close Button */}
+        <button 
+          onClick={onClose} 
+          className="lg:hidden absolute top-1 right-2 text-slate-400 hover:text-white transition p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10"
+        >
+          <X className="w-3.5 h-3.5" />
         </button>
       </div>
 

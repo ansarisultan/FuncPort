@@ -282,7 +282,7 @@ export default function Playground() {
             <div>
               <h1 className="text-xl font-bold flex items-center gap-3">
                 <Network className="w-5 h-5 text-[#06B6D4]" />
-                <span className="text-gradient-animated-funclexa">FuncPort Playground</span>
+                <span className="text-gradient-animated-funclexa">FuncPort Proxy</span>
                 {isProxyActive && (
                   <span className="text-xs font-normal text-[#22C55E] bg-[#22C55E]/10 px-3 py-1 rounded-full border border-[#22C55E]/20 flex items-center gap-2 animate-pulse">
                     <Activity className="w-3 h-3" />
@@ -449,7 +449,7 @@ export default function Playground() {
       </div>
 
       {/* Floating Context-Aware Chatbot Widget */}
-      {trafficLogs.length > 0 && (
+      {(isProxyActive || trafficLogs.length > 0) && (
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
           {/* Chat Window Panel */}
           {isFloatingChatOpen && (
@@ -495,13 +495,13 @@ export default function Playground() {
                         onClick={() => sendMessage('Explain the current network status and any latency or error anomalies')}
                         className="w-full p-2 text-left text-[10px] text-slate-300 hover:text-white bg-white/5 hover:bg-primary-500/10 border border-white/5 hover:border-primary-500/20 rounded-xl transition duration-200"
                       >
-                        📊 Explain network status report
+                        Explain network status report
                       </button>
                       <button 
                         onClick={() => sendMessage('Why is there high latency or errors in the proxy?')}
                         className="w-full p-2 text-left text-[10px] text-slate-300 hover:text-white bg-white/5 hover:bg-primary-500/10 border border-white/5 hover:border-primary-500/20 rounded-xl transition duration-200"
                       >
-                        ⚡ Analyze latency or error causes
+                        Analyze latency or error causes
                       </button>
                     </div>
                   </div>

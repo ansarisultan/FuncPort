@@ -6,6 +6,7 @@ import {
   TrendingUp, History, Activity, Clock
 } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../../config';
 
 export default function StressTest() {
   const {
@@ -108,6 +109,9 @@ export default function StressTest() {
           // Trigger requests
           const { proxyUrl } = useStore.getState();
           if (proxyUrl) {
+            const actualProxyUrl = proxyUrl
+              .replace('http://mock.funclexa.com', API_BASE_URL)
+              .replace('https://mock.funclexa.com', API_BASE_URL);
             const batchSize = Math.ceil(stressTestConfig.totalRequests / (stressTestConfig.duration || 30));
             const methods = ['GET', 'POST', 'PUT'];
             for (let i = 0; i < batchSize; i++) {
@@ -115,11 +119,11 @@ export default function StressTest() {
               const routeSuffix = `/stress-test-${Math.floor(Math.random() * 100)}`;
               
               if (method === 'GET') {
-                axios.get(`${proxyUrl}${routeSuffix}?t=${Date.now()}&index=${i}`).catch(() => {});
+                axios.get(`${actualProxyUrl}${routeSuffix}?t=${Date.now()}&index=${i}`).catch(() => {});
               } else if (method === 'POST') {
-                axios.post(`${proxyUrl}${routeSuffix}`, { stressTest: true, index: i }).catch(() => {});
+                axios.post(`${actualProxyUrl}${routeSuffix}`, { stressTest: true, index: i }).catch(() => {});
               } else {
-                axios.put(`${proxyUrl}${routeSuffix}`, { stressTest: true, index: i }).catch(() => {});
+                axios.put(`${actualProxyUrl}${routeSuffix}`, { stressTest: true, index: i }).catch(() => {});
               }
             }
           }

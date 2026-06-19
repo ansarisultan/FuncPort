@@ -5,20 +5,19 @@ import { API_BASE_URL } from '../config';
 
 export function useTraffic() {
   const { trafficLogs, clearTrafficLogs } = useStore();
+  const isProxyActive = useStore(state => state.isProxyActive);
+  const proxyId = useStore(state => state.proxyId);
   const [selectedLog, setSelectedLog] = useState(null);
   const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
 
   // Fetch real-time traffic from the backend proxy
   useEffect(() => {
-    const activeProxyId = useStore.getState().proxyId;
-    const isProxyActive = useStore.getState().isProxyActive;
-
-    if (!isProxyActive || !activeProxyId) return;
+    if (!isProxyActive || !proxyId) return;
 
     const fetchTraffic = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/proxy/${activeProxyId}/traffic`);
+        const response = await axios.get(`${API_BASE_URL}/api/proxy/${proxyId}/traffic`);
         if (response.data && response.data.success) {
           // Format backend traffic logs to match frontend expectations
           const formattedLogs = response.data.traffic.map(log => ({
@@ -56,7 +55,7 @@ export function useTraffic() {
     const interval = setInterval(fetchTraffic, 1500);
 
     return () => clearInterval(interval);
-  }, [useStore.getState().isProxyActive, useStore.getState().proxyId]);
+  }, [isProxyActive, proxyId]);
 
   const getFilteredLogs = () => {
     let logs = trafficLogs;

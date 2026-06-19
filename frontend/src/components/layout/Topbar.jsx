@@ -5,7 +5,7 @@ import {
   Zap, Shield, Globe, User,
   Plus, Settings, Command, Activity,
   Clock, HardDrive, Terminal, RefreshCw,
-  X, Check, HelpCircle, LogOut
+  X, Check, HelpCircle, LogOut, FolderOpen
 } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import AIAssistant from '../modals/AIAssistant';
@@ -60,6 +60,106 @@ export default function Topbar({ onMenuClick }) {
     }
   };
 
+  const renderRecommendations = (onSelect) => (
+    <div className="space-y-3.5 text-left pt-1">
+      <div>
+        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mb-1.5">Quick Actions</span>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={() => {
+              triggerQuickAction('toggle-proxy');
+              onSelect();
+            }}
+            className="p-2 rounded-xl bg-white/5 hover:bg-primary-500/10 hover:border-primary-500/30 border border-white/5 text-xs text-slate-200 flex items-center gap-2 transition duration-200"
+          >
+            <Zap className="w-3.5 h-3.5 text-[#F59E0B]" />
+            <span className="font-medium">Toggle Proxy Status</span>
+          </button>
+          <button
+            onClick={() => {
+              triggerQuickAction('random-error');
+              onSelect();
+            }}
+            className="p-2 rounded-xl bg-white/5 hover:bg-primary-500/10 hover:border-primary-500/30 border border-white/5 text-xs text-slate-200 flex items-center gap-2 transition duration-200"
+          >
+            <Terminal className="w-3.5 h-3.5 text-[#EF4444]" />
+            <span className="font-medium">Inject Random Error</span>
+          </button>
+          <button
+            onClick={() => {
+              triggerQuickAction('clear-logs');
+              onSelect();
+            }}
+            className="p-2 rounded-xl bg-white/5 hover:bg-primary-500/10 hover:border-primary-500/30 border border-white/5 text-xs text-slate-200 flex items-center gap-2 transition duration-200"
+          >
+            <Activity className="w-3.5 h-3.5 text-primary-400" />
+            <span className="font-medium">Clear Captured Logs</span>
+          </button>
+          <button
+            onClick={() => {
+              triggerQuickAction('reset-all');
+              onSelect();
+            }}
+            className="p-2 rounded-xl bg-white/5 hover:bg-primary-500/10 hover:border-primary-500/30 border border-white/5 text-xs text-slate-200 flex items-center gap-2 transition duration-200"
+          >
+            <RefreshCw className="w-3.5 h-3.5 text-secondary-400" />
+            <span className="font-medium">Reset Workspace</span>
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mb-1.5">Jump to Tab</span>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={() => {
+              navigate('/config');
+              setActiveTab('config');
+              onSelect();
+            }}
+            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 flex items-center gap-2 transition duration-200"
+          >
+            <Settings className="w-3.5 h-3.5 text-slate-400" />
+            <span className="font-medium">Configuration</span>
+          </button>
+          <button
+            onClick={() => {
+              navigate('/logs');
+              setActiveTab('traffic');
+              onSelect();
+            }}
+            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 flex items-center gap-2 transition duration-200"
+          >
+            <Activity className="w-3.5 h-3.5 text-primary-400" />
+            <span className="font-medium">Traffic Logs</span>
+          </button>
+          <button
+            onClick={() => {
+              navigate('/stress');
+              setActiveTab('stress');
+              onSelect();
+            }}
+            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 flex items-center gap-2 transition duration-200"
+          >
+            <Zap className="w-3.5 h-3.5 text-[#F59E0B]" />
+            <span className="font-medium">Stress Test</span>
+          </button>
+          <button
+            onClick={() => {
+              navigate('/scenarios');
+              setActiveTab('scenarios');
+              onSelect();
+            }}
+            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-slate-300 flex items-center gap-2 transition duration-200"
+          >
+            <FolderOpen className="w-3.5 h-3.5 text-secondary-400" />
+            <span className="font-medium">Scenarios</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <header className="h-14 flex items-center px-4 md:px-6 border-b border-white/5 bg-[#0A1020]/80 backdrop-blur-xl sticky top-0 z-30 justify-between">
@@ -89,72 +189,83 @@ export default function Topbar({ onMenuClick }) {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary-400" />
               
               {/* Search Dropdown Overlay inside mobile container */}
-              {searchQuery && isSearchFocused && (
+              {isSearchFocused && (
                 <div className="absolute top-11 left-0 right-0 bg-[#0A1020]/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-4 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-50 max-h-96 overflow-y-auto">
                   <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Search Results</span>
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                      {searchQuery ? 'Search Results' : 'Search Recommendations'}
+                    </span>
                     <button onClick={() => setSearchQuery('')} className="text-slate-500 hover:text-white">
                       <X className="w-3.5 h-3.5" />
                     </button>
                   </div>
                   
-                  {filteredScenarios.length === 0 && filteredLogs.length === 0 && (
-                    <p className="text-xs text-slate-400 py-2">No matching scenarios or logs found.</p>
-                  )}
+                  {searchQuery ? (
+                    <>
+                      {filteredScenarios.length === 0 && filteredLogs.length === 0 && (
+                        <p className="text-xs text-slate-400 py-2">No matching scenarios or logs found.</p>
+                      )}
 
-                  {filteredScenarios.length > 0 && (
-                    <div className="mb-4 text-left">
-                      <span className="text-[10px] text-primary-400 font-semibold uppercase block mb-1">Scenarios</span>
-                      <div className="space-y-1">
-                        {filteredScenarios.map(s => (
-                          <button
-                            key={s.id}
-                            onClick={() => {
-                              navigate('/scenarios');
-                              setActiveTab('scenarios');
-                              loadScenario(s.id);
-                              setSearchQuery('');
-                              setShowMobileSearch(false);
-                            }}
-                            className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
-                          >
-                            <span>{s.name}</span>
-                            <span className="text-[10px] text-slate-500">{s.latency}ms latency</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                      {filteredScenarios.length > 0 && (
+                        <div className="mb-4 text-left">
+                          <span className="text-[10px] text-primary-400 font-semibold uppercase block mb-1">Scenarios</span>
+                          <div className="space-y-1">
+                            {filteredScenarios.map(s => (
+                              <button
+                                key={s.id}
+                                onClick={() => {
+                                  navigate('/scenarios');
+                                  setActiveTab('scenarios');
+                                  loadScenario(s.id);
+                                  setSearchQuery('');
+                                  setShowMobileSearch(false);
+                                }}
+                                className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
+                              >
+                                <span>{s.name}</span>
+                                <span className="text-[10px] text-slate-500">{s.latency}ms latency</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
 
-                  {filteredLogs.length > 0 && (
-                    <div className="text-left">
-                      <span className="text-[10px] text-secondary-400 font-semibold uppercase block mb-1">Traffic Logs</span>
-                      <div className="space-y-1">
-                        {filteredLogs.slice(0, 5).map(l => (
-                          <button
-                            key={l.id}
-                            onClick={() => {
-                              navigate('/logs');
-                              setActiveTab('traffic');
-                              setSearchQuery('');
-                              setShowMobileSearch(false);
-                            }}
-                            className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
-                          >
-                            <div className="flex items-center gap-2">
-                              <span className={`font-bold px-1.5 py-0.5 rounded text-[10px] ${
-                                l.status < 400 ? 'bg-success-500/20 text-success-400' : 'bg-danger-500/20 text-danger-400'
-                              }`}>
-                                {l.status}
-                              </span>
-                              <span className="font-mono text-slate-400">{l.method}</span>
-                              <span className="truncate">{l.route}</span>
-                            </div>
-                            <span className="text-[10px] text-slate-500">{l.responseTime}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
+                      {filteredLogs.length > 0 && (
+                        <div className="text-left">
+                          <span className="text-[10px] text-secondary-400 font-semibold uppercase block mb-1">Traffic Logs</span>
+                          <div className="space-y-1">
+                            {filteredLogs.slice(0, 5).map(l => (
+                              <button
+                                key={l.id}
+                                onClick={() => {
+                                  navigate('/logs');
+                                  setActiveTab('traffic');
+                                  setSearchQuery('');
+                                  setShowMobileSearch(false);
+                                }}
+                                className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <span className={`font-bold px-1.5 py-0.5 rounded text-[10px] ${
+                                    l.status < 400 ? 'bg-success-500/20 text-success-400' : 'bg-danger-500/20 text-danger-400'
+                                  }`}>
+                                    {l.status}
+                                  </span>
+                                  <span className="font-mono text-slate-400">{l.method}</span>
+                                  <span className="truncate">{l.route}</span>
+                                </div>
+                                <span className="text-[10px] text-slate-500">{l.responseTime}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    renderRecommendations(() => {
+                      setShowMobileSearch(false);
+                      setSearchQuery('');
+                    })
                   )}
                 </div>
               )}
@@ -171,7 +282,7 @@ export default function Topbar({ onMenuClick }) {
               {/* FuncPort badge - Brand Aura */}
               <div className="flex items-center gap-1.5 bg-gradient-to-r from-primary-500/10 to-secondary-500/10 border border-primary-500/20 px-3 py-1 rounded-xl shadow-[0_0_20px_rgba(34,211,238,0.08)]">
                 <span className="text-base md:text-lg font-black tracking-widest bg-gradient-to-r from-primary-400 via-secondary-400 to-accent-400 bg-clip-text text-transparent uppercase font-mono">FuncPort</span>
-                <span className="text-[8px] font-bold text-primary-400 bg-primary-400/10 px-1 rounded">V2</span>
+                <span className="text-[8px] font-bold text-primary-400 bg-primary-400/10 px-1 rounded"></span>
               </div>
             </div>
 
@@ -203,70 +314,80 @@ export default function Topbar({ onMenuClick }) {
               </div>
 
               {/* Search Dropdown Overlay */}
-              {searchQuery && isSearchFocused && (
+              {isSearchFocused && (
                 <div className="absolute top-11 left-0 w-full bg-[#0A1020]/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-4 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-50 max-h-96 overflow-y-auto">
                   <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Search Results</span>
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                      {searchQuery ? 'Search Results' : 'Search Recommendations'}
+                    </span>
                     <button onClick={() => setSearchQuery('')} className="text-slate-500 hover:text-white">
                       <X className="w-3.5 h-3.5" />
                     </button>
                   </div>
                   
-                  {filteredScenarios.length === 0 && filteredLogs.length === 0 && (
-                    <p className="text-xs text-slate-400 py-2">No matching scenarios or logs found in FuncPort.</p>
-                  )}
+                  {searchQuery ? (
+                    <>
+                      {filteredScenarios.length === 0 && filteredLogs.length === 0 && (
+                        <p className="text-xs text-slate-400 py-2">No matching scenarios or logs found in FuncPort.</p>
+                      )}
 
-                  {filteredScenarios.length > 0 && (
-                    <div className="mb-4 text-left">
-                      <span className="text-[10px] text-primary-400 font-semibold uppercase block mb-1">Scenarios</span>
-                      <div className="space-y-1">
-                        {filteredScenarios.map(s => (
-                          <button
-                            key={s.id}
-                            onClick={() => {
-                              navigate('/scenarios');
-                              setActiveTab('scenarios');
-                              loadScenario(s.id);
-                              setSearchQuery('');
-                            }}
-                            className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
-                          >
-                            <span>{s.name}</span>
-                            <span className="text-[10px] text-slate-500">{s.latency}ms latency</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                      {filteredScenarios.length > 0 && (
+                        <div className="mb-4 text-left">
+                          <span className="text-[10px] text-primary-400 font-semibold uppercase block mb-1">Scenarios</span>
+                          <div className="space-y-1">
+                            {filteredScenarios.map(s => (
+                              <button
+                                key={s.id}
+                                onClick={() => {
+                                  navigate('/scenarios');
+                                  setActiveTab('scenarios');
+                                  loadScenario(s.id);
+                                  setSearchQuery('');
+                                }}
+                                className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
+                              >
+                                <span>{s.name}</span>
+                                <span className="text-[10px] text-slate-500">{s.latency}ms latency</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
 
-                  {filteredLogs.length > 0 && (
-                    <div className="text-left">
-                      <span className="text-[10px] text-secondary-400 font-semibold uppercase block mb-1">Traffic Logs</span>
-                      <div className="space-y-1">
-                        {filteredLogs.slice(0, 5).map(l => (
-                          <button
-                            key={l.id}
-                            onClick={() => {
-                              navigate('/logs');
-                              setActiveTab('traffic');
-                              setSearchQuery('');
-                            }}
-                            className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
-                          >
-                            <div className="flex items-center gap-2">
-                              <span className={`font-bold px-1.5 py-0.5 rounded text-[10px] ${
-                                l.status < 400 ? 'bg-success-500/20 text-success-400' : 'bg-danger-500/20 text-danger-400'
-                              }`}>
-                                {l.status}
-                              </span>
-                              <span className="font-mono text-slate-400">{l.method}</span>
-                              <span className="truncate">{l.route}</span>
-                            </div>
-                            <span className="text-[10px] text-slate-500">{l.responseTime}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
+                      {filteredLogs.length > 0 && (
+                        <div className="text-left">
+                          <span className="text-[10px] text-secondary-400 font-semibold uppercase block mb-1">Traffic Logs</span>
+                          <div className="space-y-1">
+                            {filteredLogs.slice(0, 5).map(l => (
+                              <button
+                                key={l.id}
+                                onClick={() => {
+                                  navigate('/logs');
+                                  setActiveTab('traffic');
+                                  setSearchQuery('');
+                                }}
+                                className="w-full text-left p-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-200 flex items-center justify-between transition"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <span className={`font-bold px-1.5 py-0.5 rounded text-[10px] ${
+                                    l.status < 400 ? 'bg-success-500/20 text-success-400' : 'bg-danger-500/20 text-danger-400'
+                                  }`}>
+                                    {l.status}
+                                  </span>
+                                  <span className="font-mono text-slate-400">{l.method}</span>
+                                  <span className="truncate">{l.route}</span>
+                                </div>
+                                <span className="text-[10px] text-slate-500">{l.responseTime}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    renderRecommendations(() => {
+                      setSearchQuery('');
+                    })
                   )}
                 </div>
               )}

@@ -103,7 +103,7 @@ class ProxyService {
   }
 
   async generateProxyUrl(proxyId) {
-    const baseUrl = process.env.PROXY_BASE_URL || 'http://localhost:5000';
+    const baseUrl = process.env.PROXY_BASE_URL || 'http://mock.funclexa.com';
     return `${baseUrl}/p/${proxyId}`;
   }
 

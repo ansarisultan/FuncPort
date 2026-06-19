@@ -148,15 +148,14 @@ export default function ScenarioManager() {
 
       const activeProxyId = useStore.getState().proxyId;
       if (activeProxyId) {
-        await axios.post(`${API_BASE_URL}/api/proxy/create`, {
-          backendUrl: useStore.getState().backendUrl,
+        await axios.put(`${API_BASE_URL}/api/proxy/${activeProxyId}`, {
           networkConfig: {
             latency: preset.latency,
             errorCode: preset.errorCode,
             failureRate: preset.failureRate,
             networkProfile: preset.networkProfile,
-            rateLimit: 'none',
-            payloadMultiplier: 1
+            rateLimit: useStore.getState().rateLimit || 'none',
+            payloadMultiplier: useStore.getState().payloadMultiplier || 1
           },
           schemaMutations: useStore.getState().schemaMutations
         });
