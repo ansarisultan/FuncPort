@@ -100,9 +100,9 @@ export default function ProxyConfig() {
   };
 
   return (
-    <div className="panel-3d p-6 space-y-4">
+    <div className="panel-3d p-4 sm:p-6 space-y-3 sm:space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+        <h3 className="text-xs sm:text-sm font-semibold text-white flex items-center gap-2">
           <Link className="w-4 h-4 text-primary-400" />
           Proxy Configuration
         </h3>
@@ -110,8 +110,8 @@ export default function ProxyConfig() {
       </div>
 
       {/* Backend URL Input */}
-      <div className="space-y-2">
-        <label className="text-xs text-slate-400">Backend URL</label>
+      <div className="space-y-1.5 sm:space-y-2">
+        <label className="text-[10px] sm:text-xs text-slate-400">Backend URL</label>
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
             <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
@@ -123,21 +123,21 @@ export default function ProxyConfig() {
                 setUrlError('');
               }}
               placeholder="https://api.myapp.com"
-              className="input-premium w-full pl-9"
+              className="input-premium w-full pl-9 text-xs sm:text-sm py-2 sm:py-2.5"
               disabled={isProxyActive}
             />
           </div>
           <button
             onClick={handleGenerate}
             disabled={isGenerating || isProxyActive}
-            className="btn-3d flex items-center gap-2 whitespace-nowrap text-sm px-4 py-2.5"
+            className="btn-3d flex items-center gap-1.5 sm:gap-2 whitespace-nowrap text-xs sm:text-sm px-3 sm:px-4 py-2 sm:py-2.5"
           >
             {isGenerating ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin" />
             ) : isProxyActive ? (
-              <Play className="w-4 h-4" />
+              <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             ) : (
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             )}
             {isGenerating ? 'Generating...' : isProxyActive ? 'Active' : 'Generate'}
           </button>
@@ -147,23 +147,23 @@ export default function ProxyConfig() {
         )}
         
         {/* Connection health check controls */}
-        <div className="flex items-center justify-between text-xs mt-1 pt-1">
+        <div className="flex items-center justify-between text-[10px] sm:text-xs mt-1 pt-1">
           <button
             type="button"
             onClick={handleTestConnection}
             disabled={!backendUrl || isProxyActive || connectionStatus === 'checking'}
-            className="text-primary-400 hover:text-primary-300 disabled:text-slate-600 transition flex items-center gap-1.5 font-semibold bg-white/5 px-2.5 py-1 rounded-lg border border-white/5 hover:bg-white/10"
+            className="text-primary-400 hover:text-primary-300 disabled:text-slate-600 transition flex items-center gap-1 sm:gap-1.5 font-semibold bg-white/5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg border border-white/5 hover:bg-white/10"
           >
             {connectionStatus === 'checking' ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              <Loader2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 animate-spin" />
             ) : (
-              <RefreshCw className="w-3.5 h-3.5 text-primary-400" />
+              <RefreshCw className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-primary-400" />
             )}
             {connectionStatus === 'checking' ? 'Testing Connection...' : 'Test Connection'}
           </button>
           
           {connectionStatus !== 'idle' && (
-            <span className={`flex items-center gap-1.5 font-semibold px-2 py-0.5 rounded-full text-[10px] ${
+            <span className={`flex items-center gap-1 sm:gap-1.5 font-semibold px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] ${
               connectionStatus === 'online' 
                 ? 'text-success-400 bg-success-500/10 border border-success-500/20' 
                 : 'text-accent-400 bg-accent-500/10 border border-accent-500/20'
@@ -177,7 +177,7 @@ export default function ProxyConfig() {
         </div>
         
         {connectionMessage && (
-          <p className={`text-[10px] pl-1 ${
+          <p className={`text-[9px] sm:text-[10px] pl-1 ${
             connectionStatus === 'online' ? 'text-slate-400' : 'text-accent-400/80 font-medium'
           }`}>
             {connectionMessage}
@@ -187,8 +187,8 @@ export default function ProxyConfig() {
 
       {/* Proxy URL Output */}
       {proxyUrl && (
-        <div className="space-y-2 animate-slide-up">
-          <label className="text-xs text-slate-400">Generated Proxy URL</label>
+        <div className="space-y-1.5 sm:space-y-2 animate-slide-up">
+          <label className="text-[10px] sm:text-xs text-slate-400">Generated Proxy URL</label>
           <div className="flex items-center gap-2">
             <div className="relative flex-1">
               <Link className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-success-400" />
@@ -196,25 +196,25 @@ export default function ProxyConfig() {
                 type="text"
                 value={proxyUrl}
                 readOnly
-                className="input-premium w-full pl-9 text-success-400 font-mono text-sm"
+                className="input-premium w-full pl-9 text-success-400 font-mono text-xs sm:text-sm py-2 sm:py-2.5"
               />
             </div>
             <button
               onClick={handleCopy}
-              className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition border border-white/10 hover:scale-110 duration-300"
+              className="p-2 sm:p-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition border border-white/10 hover:scale-110 duration-300"
             >
-              {copied ? <Check className="w-4 h-4 text-success-400" /> : <Copy className="w-4 h-4 text-slate-400" />}
+              {copied ? <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-success-400" /> : <Copy className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400" />}
             </button>
             {isProxyActive && (
               <button
                 onClick={handleStop}
-                className="p-2.5 rounded-xl bg-accent-500/20 hover:bg-accent-500/30 transition border border-accent-500/20 hover:scale-110 duration-300"
+                className="p-2 sm:p-2.5 rounded-xl bg-accent-500/20 hover:bg-accent-500/30 transition border border-accent-500/20 hover:scale-110 duration-300"
               >
-                <Square className="w-4 h-4 text-accent-400" />
+                <Square className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-400" />
               </button>
             )}
           </div>
-          <div className="flex items-center gap-2 text-[10px] text-slate-500">
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[9px] sm:text-[10px] text-slate-500">
             <Shield className="w-3 h-3 text-success-400" />
             <span>Replace your API URL with this proxy URL in your frontend</span>
           </div>
@@ -223,18 +223,18 @@ export default function ProxyConfig() {
 
       {/* Quick Stats */}
       {isProxyActive && (
-        <div className="grid grid-cols-3 gap-2 p-3 bg-white/5 rounded-xl border border-white/5 animate-slide-up">
+        <div className="grid grid-cols-3 gap-1.5 sm:gap-2 p-2.5 sm:p-3 bg-white/5 rounded-xl border border-white/5 animate-slide-up">
           <div className="text-center">
-            <div className="text-xs text-slate-400">Requests</div>
-            <div className="text-lg font-bold text-white">{trafficLogs.length}</div>
+            <div className="text-[10px] sm:text-xs text-slate-400">Requests</div>
+            <div className="text-base sm:text-lg font-bold text-white">{trafficLogs.length}</div>
           </div>
           <div className="text-center">
-            <div className="text-xs text-slate-400">Status</div>
-            <div className="text-sm font-semibold text-success-400">● Active</div>
+            <div className="text-[10px] sm:text-xs text-slate-400">Status</div>
+            <div className="text-xs sm:text-sm font-semibold text-success-400">● Active</div>
           </div>
           <div className="text-center">
-            <div className="text-xs text-slate-400">Proxy ID</div>
-            <div className="text-xs font-mono text-primary-400 truncate">
+            <div className="text-[10px] sm:text-xs text-slate-400">Proxy ID</div>
+            <div className="text-[10px] sm:text-xs font-mono text-primary-400 truncate">
               {proxyUrl?.split('/').pop() || 'N/A'}
             </div>
           </div>

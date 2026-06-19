@@ -70,6 +70,7 @@ export default {
         'float-slow': 'float 8s ease-in-out infinite',
         'float-medium': 'float 6s ease-in-out infinite',
         'float-fast': 'float 4s ease-in-out infinite',
+        'pulse-slow': 'pulse 4s ease-in-out infinite',
         'spin-slow': 'spin 3s linear infinite',
         'shimmer': 'shimmer 2s ease-in-out infinite',
         'scale-in': 'scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both',
@@ -88,8 +89,8 @@ export default {
           '100%': { boxShadow: '0 0 40px rgba(34,211,238,0.3)' },
         },
         float: {
-          '0%,100%': { transform: 'translateY(0px) rotate(0deg)' },
-          '50%': { transform: 'translateY(-10px) rotate(2deg)' },
+          '0%, 100%': { transform: 'translateY(0px) rotate(0deg) scale(1)' },
+          '50%': { transform: 'translateY(-20px) rotate(3deg) scale(1.02)' },
         },
         shimmer: {
           '0%': { backgroundPosition: '-200% center' },

@@ -8,7 +8,7 @@ export default function Layout({ children }) {
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
-  const { isFullscreen } = useStore();
+  const { isFullscreen, themeMode } = useStore();
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -135,7 +135,9 @@ export default function Layout({ children }) {
   return (
     <div 
       ref={containerRef}
-      className="flex h-screen overflow-hidden bg-[#050816] relative select-none"
+      className={`flex h-screen overflow-hidden relative select-none transition-colors duration-700 ${
+        themeMode === 'glass' ? 'bg-[#090e25] theme-glass' : 'bg-[#050816]'
+      }`}
       style={{ '--mouse-x': `${mousePosition.x}%`, '--mouse-y': `${mousePosition.y}%` }}
     >
       {/* Network Particle Constellation Canvas */}
@@ -143,19 +145,26 @@ export default function Layout({ children }) {
 
       {/* Dynamic Ambient Glow lights */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        {themeMode === 'glass' && (
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[90vw] h-[45vh] rounded-full bg-gradient-to-b from-[#3b82f6]/18 via-[#6366f1]/6 to-transparent blur-[130px] pointer-events-none" />
+        )}
         <div 
-          className="absolute w-[50vw] h-[50vw] rounded-full blur-3xl transition-all duration-1000 opacity-60"
+          className="absolute w-[50vw] h-[50vw] rounded-full blur-3xl transition-all duration-1000 opacity-70"
           style={{
-            background: 'radial-gradient(circle, rgba(34,211,238,0.08), transparent 70%)',
+            background: themeMode === 'glass' 
+              ? 'radial-gradient(circle, rgba(34,211,238,0.18), transparent 70%)'
+              : 'radial-gradient(circle, rgba(34,211,238,0.08), transparent 70%)',
             top: `${mousePosition.y * 0.3}%`,
             left: `${mousePosition.x * 0.3}%`,
             transform: 'translate(-50%, -50%)',
           }}
         />
         <div 
-          className="absolute w-[45vw] h-[45vw] rounded-full blur-3xl transition-all duration-700 opacity-40"
+          className="absolute w-[45vw] h-[45vw] rounded-full blur-3xl transition-all duration-700 opacity-55"
           style={{
-            background: 'radial-gradient(circle, rgba(99,102,241,0.08), transparent 70%)',
+            background: themeMode === 'glass'
+              ? 'radial-gradient(circle, rgba(99,102,241,0.16), transparent 70%)'
+              : 'radial-gradient(circle, rgba(99,102,241,0.08), transparent 70%)',
             bottom: `${100 - mousePosition.y * 0.2}%`,
             right: `${100 - mousePosition.x * 0.2}%`,
             transform: 'translate(50%, 50%)',

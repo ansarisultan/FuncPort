@@ -14,12 +14,12 @@ import toast from 'react-hot-toast';
 import { API_BASE_URL } from '../../config';
 
 const navItems = [
-  { to: '/', label: 'Overview', icon: BarChart3 },
-  { to: '/config', label: 'Configuration', icon: Settings },
-  { to: '/logs', label: 'Traffic Logs', icon: Activity },
-  { to: '/stress', label: 'Stress Test', icon: Loader2 },
-  { to: '/scenarios', label: 'Scenarios', icon: FolderOpen },
-  { to: '/generator', label: 'Data Generator', icon: Database },
+  { to: '/app', label: 'Overview', icon: BarChart3 },
+  { to: '/app/config', label: 'Configuration', icon: Settings },
+  { to: '/app/logs', label: 'Traffic Logs', icon: Activity },
+  { to: '/app/stress', label: 'Stress Test', icon: Loader2 },
+  { to: '/app/scenarios', label: 'Scenarios', icon: FolderOpen },
+  { to: '/app/generator', label: 'Data Generator', icon: Database },
 ];
 
 export default function Sidebar({ onClose }) {
@@ -202,7 +202,7 @@ export default function Sidebar({ onClose }) {
                 <button
                   key={scenario.id}
                   onClick={() => {
-                    navigate('/');
+                    navigate('/app');
                     setActiveTab('scenarios');
                     loadScenario(scenario.id);
                     if (onClose) onClose();
@@ -238,7 +238,7 @@ export default function Sidebar({ onClose }) {
         </span>
         <button 
           onClick={() => {
-            navigate('/');
+            navigate('/app');
             setActiveTab('config');
             if (onClose) onClose();
           }}
@@ -249,7 +249,7 @@ export default function Sidebar({ onClose }) {
         </button>
         <button 
           onClick={() => {
-            navigate('/scenarios');
+            navigate('/app/scenarios');
             setActiveTab('scenarios');
             if (onClose) onClose();
           }}
@@ -260,7 +260,7 @@ export default function Sidebar({ onClose }) {
         </button>
         <button 
           onClick={() => {
-            navigate('/logs');
+            navigate('/app/logs');
             setActiveTab('traffic');
             if (onClose) onClose();
           }}

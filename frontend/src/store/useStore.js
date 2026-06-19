@@ -59,6 +59,7 @@ export const useStore = create(
       isCopying: false,
       activeTab: 'config',
       isFullscreen: false,
+      themeMode: 'dark',
       
       // Generator State
       generatorType: 'users',
@@ -177,6 +178,7 @@ export const useStore = create(
       setIsCopying: (copying) => set({ isCopying: copying }),
       setActiveTab: (tab) => set({ activeTab: tab }),
       setIsFullscreen: (fullscreen) => set({ isFullscreen: fullscreen }),
+      toggleThemeMode: () => set((state) => ({ themeMode: state.themeMode === 'dark' ? 'glass' : 'dark' })),
       
       setIsRecording: (recording) => set({ isRecording: recording }),
       addRecordedTraffic: (log) => set((state) => ({
@@ -206,6 +208,7 @@ export const useStore = create(
         trafficStats: state.trafficStats,
         webhookUrl: state.webhookUrl,
         isWebhookEnabled: state.isWebhookEnabled,
+        themeMode: state.themeMode,
       }),
     }
   )

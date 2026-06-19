@@ -32,7 +32,8 @@ export default function Playground() {
     latency,
     failureRate,
     errorCode,
-    trafficStats
+    trafficStats,
+    themeMode
   } = useStore();
   
   // Call useProxy to ensure dynamic configuration sync effect remains mounted & active at all times
@@ -188,26 +189,26 @@ export default function Playground() {
   };
 
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: BarChart3, to: '/' },
-    { id: 'config', label: 'Configuration', icon: Settings, to: '/config' },
-    { id: 'traffic', label: 'Traffic Inspector', icon: Activity, to: '/logs' },
-    { id: 'stress', label: 'Stress Test', icon: Loader2, to: '/stress' },
-    { id: 'scenarios', label: 'Scenarios', icon: FileText, to: '/scenarios' },
-    { id: 'generator', label: 'Data Generator', icon: Database, to: '/generator' },
+    { id: 'overview', label: 'Overview', icon: BarChart3, to: '/app' },
+    { id: 'config', label: 'Configuration', icon: Settings, to: '/app/config' },
+    { id: 'traffic', label: 'Traffic Inspector', icon: Activity, to: '/app/logs' },
+    { id: 'stress', label: 'Stress Test', icon: Loader2, to: '/app/stress' },
+    { id: 'scenarios', label: 'Scenarios', icon: FileText, to: '/app/scenarios' },
+    { id: 'generator', label: 'Data Generator', icon: Database, to: '/app/generator' },
   ];
 
   useEffect(() => {
-    if (location.pathname === '/scenarios') {
+    if (location.pathname === '/app/scenarios') {
       setActiveTab('scenarios');
-    } else if (location.pathname === '/logs') {
+    } else if (location.pathname === '/app/logs') {
       setActiveTab('traffic');
-    } else if (location.pathname === '/stress') {
+    } else if (location.pathname === '/app/stress') {
       setActiveTab('stress');
-    } else if (location.pathname === '/generator') {
+    } else if (location.pathname === '/app/generator') {
       setActiveTab('generator');
-    } else if (location.pathname === '/config') {
+    } else if (location.pathname === '/app/config') {
       setActiveTab('config');
-    } else if (location.pathname === '/') {
+    } else if (location.pathname === '/app') {
       setActiveTab('overview');
     }
   }, [location.pathname, setActiveTab]);
@@ -267,32 +268,43 @@ export default function Playground() {
   };
 
   return (
-    <div className={`w-full flex flex-col relative overflow-hidden ${isFullscreen ? 'fixed inset-0 z-50 bg-[#050816] p-4 h-screen' : 'h-full lg:h-[calc(100vh-5.5rem)] lg:overflow-hidden'}`}>
+    <div className={`w-full flex flex-col relative overflow-hidden transition-colors duration-700 ${
+      isFullscreen 
+        ? `fixed inset-0 z-50 p-4 h-screen ${themeMode === 'glass' ? 'bg-[#090e25] theme-glass' : 'bg-[#050816]'}` 
+        : themeMode === 'glass' ? 'theme-glass' : ''
+    } ${isFullscreen ? '' : 'h-full lg:h-[calc(100vh-5.5rem)] lg:overflow-hidden'}`}>
       {/* Background Grid Pattern & Radial Glows */}
       <div className="absolute inset-0 bg-cyber-grid pointer-events-none opacity-40 z-0" />
       <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-[#06B6D4]/5 rounded-full blur-[120px] pointer-events-none z-0" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-indigo-500/3 rounded-full blur-[100px] pointer-events-none z-0" />
+      
+      {themeMode === 'glass' && (
+        <>
+          <div className="absolute top-10 left-1/4 w-[350px] h-[350px] bg-[#06B6D4]/12 rounded-full blur-[90px] pointer-events-none z-0 animate-pulse-slow" />
+          <div className="absolute bottom-10 right-1/4 w-[350px] h-[350px] bg-indigo-500/10 rounded-full blur-[90px] pointer-events-none z-0 animate-pulse-slow" style={{ animationDelay: '-1s' }} />
+        </>
+      )}
 
-      <div className="flex flex-col h-full gap-4 z-10 relative">
+      <div className="flex flex-col h-full gap-2 sm:gap-4 z-10 relative">
         {/* Header with Gradient */}
-        <div className="relative overflow-hidden rounded-2xl bg-[#0A1020] border border-[#1E293B]/60 p-4 shadow-xl">
+        <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-[#0A1020] border border-[#1E293B]/60 p-2.5 sm:p-4 shadow-lg sm:shadow-xl">
           <div className="absolute top-0 right-0 w-48 h-48 bg-[#06B6D4]/5 rounded-full blur-3xl animate-float-slow" />
           
-          <div className="relative flex items-center justify-between flex-wrap gap-3">
+          <div className="relative flex items-center justify-between gap-3">
             <div>
-              <h1 className="text-xl font-bold flex items-center gap-3">
-                <Network className="w-5 h-5 text-[#06B6D4]" />
-                <span className="text-gradient-animated-funclexa">FuncPort Proxy</span>
+              <h1 className="text-sm sm:text-xl font-bold flex items-center gap-1.5 sm:gap-3">
+                <Network className="w-4 h-4 sm:w-5 sm:h-5 text-[#06B6D4] flex-shrink-0" />
+                <span className="text-gradient-animated-funclexa whitespace-nowrap">FuncPort Proxy</span>
                 {isProxyActive && (
-                  <span className="text-xs font-normal text-[#22C55E] bg-[#22C55E]/10 px-3 py-1 rounded-full border border-[#22C55E]/20 flex items-center gap-2 animate-pulse">
-                    <Activity className="w-3 h-3" />
+                  <span className="text-[9px] sm:text-xs font-normal text-[#22C55E] bg-[#22C55E]/10 px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full border border-[#22C55E]/20 flex items-center gap-1 sm:gap-2 animate-pulse whitespace-nowrap">
+                    <Activity className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                     Active
                   </span>
                 )}
               </h1>
-              <p className="text-sm text-slate-400 mt-1 flex items-center gap-2">
-                <Shield className="w-3.5 h-3.5 text-[#06B6D4]" />
-                FuncPort Network Simulator • {trafficLogs.length} requests logged
+              <p className="text-[10px] sm:text-sm text-slate-400 mt-0.5 sm:mt-1 flex items-center gap-1 sm:gap-2">
+                <Shield className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#06B6D4] flex-shrink-0" />
+                <span className="truncate">FuncPort Simulator • {trafficLogs.length} reqs</span>
               </p>
             </div>
             
@@ -320,7 +332,7 @@ export default function Playground() {
 
               <button
                 onClick={() => setIsFullscreen(!isFullscreen)}
-                className="p-2 rounded-xl hover:bg-white/5 transition-all duration-300 hover:scale-110"
+                className="p-1.5 sm:p-2 rounded-xl hover:bg-white/5 transition-all duration-300 hover:scale-110"
               >
                 {isFullscreen ? <Minimize2 className="w-4 h-4 text-slate-400" /> : <Maximize2 className="w-4 h-4 text-slate-400" />}
               </button>
@@ -608,55 +620,24 @@ function OverviewPage({
     <div className="space-y-4 overflow-y-auto h-full pr-2 pb-6">
       {/* 5 Metrics Cards Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-        {/* Card 1: Latency */}
-        <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020]/45 backdrop-blur-xl border-[#1E293B]/80 hover:border-[#F59E0B]/30 transition-all duration-300">
+        {/* Card 1: Proxy State */}
+        <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020]/45 backdrop-blur-xl border-[#1E293B]/80 hover:border-[#22C55E]/30 transition-all duration-300 col-span-2 sm:col-span-1">
           <div className="flex justify-between items-start">
-            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-sans">AVG LATENCY</span>
-            <Clock className="w-3.5 h-3.5 text-[#F59E0B]" />
+            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-sans">PROXY STATE</span>
+            <Globe className="w-3.5 h-3.5 text-[#22C55E]" />
           </div>
           <div className="flex items-end justify-between mt-1">
-            <div className="flex items-baseline gap-0.5">
-              <span className="text-lg font-bold font-mono text-[#F59E0B]">{avgLatency}</span>
-              <span className="text-[10px] text-slate-500 font-mono">ms</span>
-            </div>
-            <svg className="w-14 h-5 text-[#F59E0B]/50" viewBox="0 0 100 30" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M0,25 L10,22 L20,28 L30,15 L40,18 L50,10 L60,25 L70,8 L80,12 L90,5 L100,15" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-        </div>
-
-        {/* Card 2: Fail Rate */}
-        <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020]/45 backdrop-blur-xl border-[#1E293B]/80 hover:border-[#EF4444]/30 transition-all duration-300">
-          <div className="flex justify-between items-start">
-            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-sans">ERRORS</span>
-            <AlertCircle className="w-3.5 h-3.5 text-[#EF4444]" />
-          </div>
-          <div className="flex items-end justify-between mt-1">
-            <div className="flex items-baseline gap-0.5">
-              <span className="text-lg font-bold font-mono text-[#EF4444]">{errorLogsCount}</span>
-              <span className="text-[10px] text-slate-500 font-mono">errs</span>
-            </div>
-            <svg className="w-14 h-5 text-[#EF4444]/50" viewBox="0 0 100 30" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M0,28 L10,28 L20,28 L30,22 L40,28 L50,28 L60,15 L70,28 L80,28 L90,20 L100,28" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-        </div>
-
-        {/* Card 3: Error Inject */}
-        <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020]/45 backdrop-blur-xl border-[#1E293B]/80 hover:border-red-500/30 transition-all duration-300">
-          <div className="flex justify-between items-start">
-            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-sans">ERROR INJECT</span>
-            <Shield className="w-3.5 h-3.5 text-red-500" />
-          </div>
-          <div className="flex items-end justify-between mt-1">
-            <span className={`text-xs font-bold font-mono truncate ${errorCode !== 'none' ? 'text-[#EF4444]' : 'text-slate-400'}`}>
-              {errorCode === 'none' ? 'NONE' : errorCode}
+            <span className={`text-xs font-bold font-mono uppercase ${isProxyActive ? 'text-[#22C55E]' : 'text-slate-500'}`}>
+              {isProxyActive ? 'ACTIVE' : 'STANDBY'}
             </span>
-            <div className={`w-2 h-2 rounded-full ${errorCode !== 'none' ? 'bg-[#EF4444] animate-pulse' : 'bg-slate-700'}`} />
+            <span className={`relative flex h-2 w-2`}>
+              {isProxyActive && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#22C55E] opacity-75"></span>}
+              <span className={`relative inline-flex rounded-full h-2 w-2 ${isProxyActive ? 'bg-[#22C55E]' : 'bg-slate-600'}`}></span>
+            </span>
           </div>
         </div>
 
-        {/* Card 4: Throughput */}
+        {/* Card 2: Throughput / Traffic */}
         <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020]/45 backdrop-blur-xl border-[#1E293B]/80 hover:border-[#06B6D4]/30 transition-all duration-300">
           <div className="flex justify-between items-start">
             <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-sans">TRAFFIC</span>
@@ -673,20 +654,51 @@ function OverviewPage({
           </div>
         </div>
 
-        {/* Card 5: Proxy State */}
-        <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020]/45 backdrop-blur-xl border-[#1E293B]/80 hover:border-[#22C55E]/30 transition-all duration-300 col-span-2 sm:col-span-1">
+        {/* Card 3: Latency */}
+        <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020]/45 backdrop-blur-xl border-[#1E293B]/80 hover:border-[#F59E0B]/30 transition-all duration-300">
           <div className="flex justify-between items-start">
-            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-sans">PROXY STATE</span>
-            <Globe className="w-3.5 h-3.5 text-[#22C55E]" />
+            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-sans">AVG LATENCY</span>
+            <Clock className="w-3.5 h-3.5 text-[#F59E0B]" />
           </div>
           <div className="flex items-end justify-between mt-1">
-            <span className={`text-xs font-bold font-mono uppercase ${isProxyActive ? 'text-[#22C55E]' : 'text-slate-500'}`}>
-              {isProxyActive ? 'ACTIVE' : 'STANDBY'}
+            <div className="flex items-baseline gap-0.5">
+              <span className="text-lg font-bold font-mono text-[#F59E0B]">{avgLatency}</span>
+              <span className="text-[10px] text-slate-500 font-mono">ms</span>
+            </div>
+            <svg className="w-14 h-5 text-[#F59E0B]/50" viewBox="0 0 100 30" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M0,25 L10,22 L20,28 L30,15 L40,18 L50,10 L60,25 L70,8 L80,12 L90,5 L100,15" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Card 4: Error Inject */}
+        <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020]/45 backdrop-blur-xl border-[#1E293B]/80 hover:border-red-500/30 transition-all duration-300">
+          <div className="flex justify-between items-start">
+            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-sans">ERROR INJECT</span>
+            <Shield className="w-3.5 h-3.5 text-red-500" />
+          </div>
+          <div className="flex items-end justify-between mt-1">
+            <span className={`text-xs font-bold font-mono truncate ${errorCode !== 'none' ? 'text-[#EF4444]' : 'text-slate-400'}`}>
+              {errorCode === 'none' ? 'NONE' : errorCode}
             </span>
-            <span className={`relative flex h-2 w-2`}>
-              {isProxyActive && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#22C55E] opacity-75"></span>}
-              <span className={`relative inline-flex rounded-full h-2 w-2 ${isProxyActive ? 'bg-[#22C55E]' : 'bg-slate-600'}`}></span>
-            </span>
+            <div className={`w-2 h-2 rounded-full ${errorCode !== 'none' ? 'bg-[#EF4444] animate-pulse' : 'bg-slate-700'}`} />
+          </div>
+        </div>
+
+        {/* Card 5: Errors */}
+        <div className="panel-3d p-3 flex flex-col justify-between h-20 bg-[#0A1020]/45 backdrop-blur-xl border-[#1E293B]/80 hover:border-[#EF4444]/30 transition-all duration-300">
+          <div className="flex justify-between items-start">
+            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-sans">ERRORS</span>
+            <AlertCircle className="w-3.5 h-3.5 text-[#EF4444]" />
+          </div>
+          <div className="flex items-end justify-between mt-1">
+            <div className="flex items-baseline gap-0.5">
+              <span className="text-lg font-bold font-mono text-[#EF4444]">{errorLogsCount}</span>
+              <span className="text-[10px] text-slate-500 font-mono">errs</span>
+            </div>
+            <svg className="w-14 h-5 text-[#EF4444]/50" viewBox="0 0 100 30" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M0,28 L10,28 L20,28 L30,22 L40,28 L50,28 L60,15 L70,28 L80,28 L90,20 L100,28" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </div>
         </div>
       </div>
@@ -771,7 +783,7 @@ function OverviewPage({
                 <h3 className="text-sm font-semibold text-white">Recent Logged Activity</h3>
               </div>
               <button 
-                onClick={() => { setActiveTab('traffic'); navigate('/logs'); }}
+                onClick={() => { setActiveTab('traffic'); navigate('/app/logs'); }}
                 className="text-[10px] text-primary-400 font-bold hover:underline"
               >
                 VIEW ALL LOGS →
@@ -856,7 +868,7 @@ function OverviewPage({
                 </button>
 
                 <button 
-                  onClick={() => { setActiveTab('config'); navigate('/config'); }}
+                  onClick={() => { setActiveTab('config'); navigate('/app/config'); }}
                   className="w-full py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-white/5 border border-[#1E293B]/60 hover:bg-white/10 transition duration-300 flex items-center justify-center gap-2"
                 >
                   <Settings className="w-4 h-4 text-primary-400" />
@@ -864,7 +876,7 @@ function OverviewPage({
                 </button>
 
                 <button 
-                  onClick={() => { setActiveTab('stress'); navigate('/stress'); }}
+                  onClick={() => { setActiveTab('stress'); navigate('/app/stress'); }}
                   className="w-full py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-white/5 border border-[#1E293B]/60 hover:bg-white/10 transition duration-300 flex items-center justify-center gap-2"
                 >
                   <Loader2 className="w-4 h-4 text-[#F59E0B]" />

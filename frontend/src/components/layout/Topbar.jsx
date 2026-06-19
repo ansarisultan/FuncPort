@@ -5,7 +5,8 @@ import {
   Zap, Shield, Globe, User,
   Plus, Settings, Command, Activity,
   Clock, HardDrive, Terminal, RefreshCw,
-  X, Check, HelpCircle, LogOut, FolderOpen
+  X, Check, HelpCircle, LogOut, FolderOpen,
+  Sun, Droplet
 } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import AIAssistant from '../modals/AIAssistant';
@@ -31,7 +32,9 @@ export default function Topbar({ onMenuClick }) {
     loadScenario,
     clearTrafficLogs,
     setErrorCode,
-    reset
+    reset,
+    themeMode,
+    toggleThemeMode
   } = useStore();
 
   // Search filter lists
@@ -113,7 +116,7 @@ export default function Topbar({ onMenuClick }) {
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => {
-              navigate('/config');
+              navigate('/app/config');
               setActiveTab('config');
               onSelect();
             }}
@@ -124,7 +127,7 @@ export default function Topbar({ onMenuClick }) {
           </button>
           <button
             onClick={() => {
-              navigate('/logs');
+              navigate('/app/logs');
               setActiveTab('traffic');
               onSelect();
             }}
@@ -135,7 +138,7 @@ export default function Topbar({ onMenuClick }) {
           </button>
           <button
             onClick={() => {
-              navigate('/stress');
+              navigate('/app/stress');
               setActiveTab('stress');
               onSelect();
             }}
@@ -146,7 +149,7 @@ export default function Topbar({ onMenuClick }) {
           </button>
           <button
             onClick={() => {
-              navigate('/scenarios');
+              navigate('/app/scenarios');
               setActiveTab('scenarios');
               onSelect();
             }}
@@ -214,7 +217,7 @@ export default function Topbar({ onMenuClick }) {
                               <button
                                 key={s.id}
                                 onClick={() => {
-                                  navigate('/scenarios');
+                                  navigate('/app/scenarios');
                                   setActiveTab('scenarios');
                                   loadScenario(s.id);
                                   setSearchQuery('');
@@ -238,7 +241,7 @@ export default function Topbar({ onMenuClick }) {
                               <button
                                 key={l.id}
                                 onClick={() => {
-                                  navigate('/logs');
+                                  navigate('/app/logs');
                                   setActiveTab('traffic');
                                   setSearchQuery('');
                                   setShowMobileSearch(false);
@@ -339,7 +342,7 @@ export default function Topbar({ onMenuClick }) {
                               <button
                                 key={s.id}
                                 onClick={() => {
-                                  navigate('/scenarios');
+                                  navigate('/app/scenarios');
                                   setActiveTab('scenarios');
                                   loadScenario(s.id);
                                   setSearchQuery('');
@@ -362,7 +365,7 @@ export default function Topbar({ onMenuClick }) {
                               <button
                                 key={l.id}
                                 onClick={() => {
-                                  navigate('/logs');
+                                  navigate('/app/logs');
                                   setActiveTab('traffic');
                                   setSearchQuery('');
                                 }}
@@ -428,6 +431,26 @@ export default function Topbar({ onMenuClick }) {
           >
             <Sparkles className="w-4 h-4 text-gradient-cyber group-hover:animate-spin-slow" />
             <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+          </button>
+
+          {/* Theme Switcher Button */}
+          <button 
+            onClick={() => {
+              toggleThemeMode();
+              toast.success(themeMode === 'dark' ? 'Glassmorphism Theme Enabled!' : 'Dark Theme Restored');
+            }}
+            className={`p-2 rounded-xl border transition hover:scale-105 duration-300 relative ${
+              themeMode === 'glass'
+                ? 'bg-primary-500/25 border-primary-500/50 text-primary-400 shadow-[0_0_15px_rgba(99,102,241,0.25)]'
+                : 'bg-white/5 border-white/10 text-slate-400 hover:text-white'
+            }`}
+            title={themeMode === 'glass' ? "Switch to Dark Theme" : "Switch to Glassmorphism Theme"}
+          >
+            {themeMode === 'glass' ? (
+              <Sun className="w-4 h-4 text-amber-400 animate-pulse" />
+            ) : (
+              <Droplet className="w-4 h-4 text-slate-400" />
+            )}
           </button>
 
           {/* Quick Actions (Zap Button) */}
@@ -527,7 +550,7 @@ export default function Topbar({ onMenuClick }) {
                   <span className="text-[10px] text-slate-400 font-semibold block">Dev Admin</span>
                   <span className="text-[9px] text-slate-500 block truncate">admin@funclexa.com</span>
                 </div>
-                <button onClick={() => { setShowProfileMenu(false); navigate('/'); setActiveTab('config'); }} className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/5 text-xs text-slate-200 flex items-center gap-2">
+                <button onClick={() => { setShowProfileMenu(false); navigate('/app'); setActiveTab('config'); }} className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-white/5 text-xs text-slate-200 flex items-center gap-2">
                   <Settings className="w-3.5 h-3.5 text-primary-400" />
                   Proxy Config
                 </button>
