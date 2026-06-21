@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <!-- 1. FuncSpan Main Landing Page -->
+  <url>
+    <loc>https://funcspan.funclexa.dev/</loc>
+    <lastmod>2026-06-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.00</priority> <!-- The landing page gets highest priority for searchers -->
+  </url>
+
+  <!-- 2. FuncSpan Actual Application Workspace -->
+  <url>
+    <loc>https://funcspan.funclexa.dev/app</loc>
+    <lastmod>2026-06-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority> <!-- Slightly lower priority so searchers land on the homepage first -->
+  </url>
+
+</urlset>

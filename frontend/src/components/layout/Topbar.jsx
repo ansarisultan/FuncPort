@@ -282,9 +282,9 @@ export default function Topbar({ onMenuClick }) {
                 <Menu className="w-5 h-5" />
               </button>
               
-              {/* FuncPort badge - Brand Aura */}
+              {/* FuncSpan badge - Brand Aura */}
               <div className="flex items-center gap-1.5 bg-gradient-to-r from-primary-500/10 to-secondary-500/10 border border-primary-500/20 px-3 py-1 rounded-xl shadow-[0_0_20px_rgba(34,211,238,0.08)]">
-                <span className="text-base md:text-lg font-black tracking-widest bg-gradient-to-r from-primary-400 via-secondary-400 to-accent-400 bg-clip-text text-transparent uppercase font-mono">FuncPort</span>
+                <span className="text-base md:text-lg font-black tracking-widest bg-gradient-to-r from-primary-400 via-secondary-400 to-accent-400 bg-clip-text text-transparent uppercase font-mono">FuncSpan</span>
                 <span className="text-[8px] font-bold text-primary-400 bg-primary-400/10 px-1 rounded"></span>
               </div>
             </div>
@@ -297,7 +297,7 @@ export default function Topbar({ onMenuClick }) {
                 }`} />
                 <input
                   type="text"
-                  placeholder="Search FuncPort proxies, scenarios, logs..."
+                  placeholder="Search FuncSpan proxies, scenarios, logs..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setIsSearchFocused(true)}
@@ -331,7 +331,7 @@ export default function Topbar({ onMenuClick }) {
                   {searchQuery ? (
                     <>
                       {filteredScenarios.length === 0 && filteredLogs.length === 0 && (
-                        <p className="text-xs text-slate-400 py-2">No matching scenarios or logs found in FuncPort.</p>
+                        <p className="text-xs text-slate-400 py-2">No matching scenarios or logs found in FuncSpan.</p>
                       )}
 
                       {filteredScenarios.length > 0 && (
@@ -427,7 +427,7 @@ export default function Topbar({ onMenuClick }) {
           <button 
             onClick={() => setShowAIAssistant(true)}
             className="p-2 rounded-xl bg-gradient-to-r from-primary-500/20 to-secondary-500/20 hover:from-primary-500/30 hover:to-secondary-500/30 transition border border-white/10 hover:scale-105 duration-300 group relative"
-            title="FuncPort AI Assistant"
+            title="FuncSpan AI Assistant"
           >
             <Sparkles className="w-4 h-4 text-gradient-cyber group-hover:animate-spin-slow" />
             <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />

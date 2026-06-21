@@ -1,13 +1,13 @@
 const testimonials = [
   {
-    quote: "FuncPort saved our team weeks of debugging. We were able to reproduce microservice timeouts and state-sync race conditions in local developer environments within minutes.",
+    quote: "FuncSpan saved our team weeks of debugging. We were able to reproduce microservice timeouts and state-sync race conditions in local developer environments within minutes.",
     author: "Elena Rostova",
     role: "Principal Systems Architect",
     company: "CloudCore Systems",
     avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
   },
   {
-    quote: "Testing API schema degradation used to require custom scripts that broke constantly. FuncPort's Schema Mutation panel allowed us to inject payload breaks with zero effort.",
+    quote: "Testing API schema degradation used to require custom scripts that broke constantly. FuncSpan's Schema Mutation panel allowed us to inject payload breaks with zero effort.",
     author: "Marcus Chen",
     role: "Lead DevOps Engineer",
     company: "DevSync",
@@ -34,7 +34,7 @@ export default function Testimonials() {
             Trusted by Infrastructure Teams
           </h2>
           <p className="text-slate-400 text-sm md:text-base">
-            See how engineering teams use FuncPort to guarantee reliability for high-traffic microservices.
+            See how engineering teams use FuncSpan to guarantee reliability for high-traffic microservices.
           </p>
         </div>
 

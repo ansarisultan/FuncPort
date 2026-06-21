@@ -10,7 +10,7 @@ export default function App() {
     <AIProvider>
       <BrowserRouter>
         <Routes>
-          {/* Landing Page - FuncPort */}
+          {/* Landing Page - FuncSpan */}
           <Route path="/" element={<Landing />} />
           
           {/* App Routes - FuncLexa Assets */}

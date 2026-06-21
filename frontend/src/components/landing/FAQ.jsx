@@ -3,8 +3,8 @@ import { ChevronDown } from 'lucide-react';
 
 const faqItems = [
   {
-    question: "What is FuncPort?",
-    answer: "FuncPort (formerly FuncLexa) is a premium network engineering and API simulation platform. It allows developers to create mock proxies, simulate network latency, inspect traffic, execute stress tests, and test backend API responses under controlled degradation."
+    question: "What is FuncSpan?",
+    answer: "FuncSpan (formerly FuncLexa) is a premium network engineering and API simulation platform. It allows developers to create mock proxies, simulate network latency, inspect traffic, execute stress tests, and test backend API responses under controlled degradation."
   },
   {
     question: "How does the Network Latency simulator work?",
@@ -20,7 +20,7 @@ const faqItems = [
   },
   {
     question: "Is it secure to proxy production URLs?",
-    answer: "We recommend using FuncPort for development, staging, and sandboxed testing. All proxy statistics are stored securely in your workspace instance, and payload data can be reset or cleared instantly."
+    answer: "We recommend using FuncSpan for development, staging, and sandboxed testing. All proxy statistics are stored securely in your workspace instance, and payload data can be reset or cleared instantly."
   }
 ];
 

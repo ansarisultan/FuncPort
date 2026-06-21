@@ -51,7 +51,7 @@ export default function Sidebar({ onClose }) {
 
       const dataStr = JSON.stringify(backupData, null, 2);
       const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-      const exportFileDefaultName = `funcport-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      const exportFileDefaultName = `funcspan-backup-${new Date().toISOString().slice(0, 10)}.json`;
 
       const linkElement = document.createElement('a');
       linkElement.setAttribute('href', dataUri);
@@ -138,7 +138,7 @@ export default function Sidebar({ onClose }) {
             <span className="text-3xl font-bold text-gradient-animated-funclexa block leading-none">FuncLexa</span>
             <span className="text-[10px] font-normal text-slate-400 tracking-wider uppercase mt-1 flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-primary-400 animate-ping" />
-              FuncPort • Network
+              FuncSpan • Network
             </span>
           </div>
         </div>

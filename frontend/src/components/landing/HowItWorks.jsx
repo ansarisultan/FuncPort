@@ -4,7 +4,7 @@ const steps = [
   {
     num: "01",
     title: "Generate Proxy Route",
-    desc: "Paste your destination backend API URL. FuncPort will construct a secure, branded proxy endpoint ready to receive requests.",
+    desc: "Paste your destination backend API URL. FuncSpan will construct a secure, branded proxy endpoint ready to receive requests.",
     icon: Settings
   },
   {

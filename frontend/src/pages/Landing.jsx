@@ -129,7 +129,7 @@ export default function Landing() {
       stats: '1.2K+ users'
     },
     {
-      title: 'FuncPort',
+      title: 'FuncSpan',
       description: 'Network testing platform with traffic inspection, proxy routing, and stress testing.',
       icon: Network,
       color: 'from-accent-500 to-rose-400',
@@ -218,7 +218,7 @@ export default function Landing() {
             />
 
             <div>
-              <span className="text-xl font-bold text-gradient-animated-funclexa tracking-tight font-sans">FuncPort</span>
+              <span className="text-xl font-bold text-gradient-animated-funclexa tracking-tight font-sans">FuncSpan</span>
               <span className="hidden sm:inline text-[10px] text-slate-400 ml-2 font-medium">by FuncLexa</span>
             </div>
           </Link>
@@ -322,12 +322,12 @@ export default function Landing() {
                 <div className="relative inline-block mt-4">
                   {/* Animated Border */}
                   <div className="absolute -inset-[2px] rounded-[30px] overflow-hidden">
-                    <div className="absolute inset-0 funcport-border-animation" />
+                    <div className="absolute inset-0 funcspan-border-animation" />
                   </div>
                   {/* Inner Box */}
                   <div className="relative bg-[#060B17] px-8 py-4 rounded-[28px] border border-white/5 backdrop-blur-xl">
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-cyan-300">
-                      FuncPort
+                      FuncSpan
                     </span>
                   </div>
                 </div>
@@ -346,7 +346,7 @@ export default function Landing() {
               </div>
 
               <p className="text-lg sm:text-xl text-slate-300 mb-6 max-w-lg leading-relaxed">
-                FuncPort is a network testing platform from the FuncLexa ecosystem for simulating latency, failures, traffic loads, and backend behavior before deployment.
+                FuncSpan is a network testing platform from the FuncLexa ecosystem for simulating latency, failures, traffic loads, and backend behavior before deployment.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -433,7 +433,7 @@ export default function Landing() {
                       <div className="flex items-center gap-5 mb-8">
                         <img src="/logo.png" alt="FuncLexa Logo" className="w-20 h-20 object-contain drop-shadow-[0_0_20px_rgba(99,102,241,0.25)]" />
                         <div>
-                          <h3 className="text-2xl font-bold text-gradient-animated-funclexa">FuncPort</h3>
+                          <h3 className="text-2xl font-bold text-gradient-animated-funclexa">FuncSpan</h3>
                           <p className="text-xs text-primary-400 font-semibold tracking-wider uppercase">FuncLexa</p>
                         </div>
                       </div>
@@ -475,7 +475,7 @@ export default function Landing() {
                           <div className={`p-2 rounded-xl border transition-all duration-500 text-center flex-1 ${activeNode === 1 ? 'bg-secondary-500/10 border-secondary-500/50 shadow-[0_0_15px_rgba(6,182,212,0.2)]' : 'bg-slate-900/40 border-white/5'
                             }`}>
                             <Network className="w-5 h-5 mx-auto text-secondary-400 mb-1" />
-                            <div className="text-[10px] font-bold text-white">FuncPort</div>
+                            <div className="text-[10px] font-bold text-white">FuncSpan</div>
                             <div className="text-[8px] text-primary-400 font-semibold font-mono">Proxy</div>
                           </div>
 
@@ -626,7 +626,7 @@ export default function Landing() {
               About
             </div>
             <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-              Behind <span className="text-gradient-animated-funclexa font-extrabold">FuncPort</span>
+              Behind <span className="text-gradient-animated-funclexa font-extrabold">FuncSpan</span>
             </h2>
             <p className="text-lg text-slate-300 max-w-2xl mx-auto">
               Built to help developers test, simulate, and debug network conditions before production deployment.
@@ -648,12 +648,12 @@ export default function Landing() {
                 />
                 <div>
                   <h3 className="text-2xl font-bold text-white font-sans">Sultan Salauddin Ansari</h3>
-                  <p className="text-sm text-primary-400 font-medium mt-1">Creator of FuncPort • Founder of FuncLexa</p>
+                  <p className="text-sm text-primary-400 font-medium mt-1">Creator of FuncSpan • Founder of FuncLexa</p>
                 </div>
               </div>
               <p className="text-slate-300 leading-relaxed">
                 A passionate full-stack developer and AI engineer dedicated to building
-                innovative, AI-integrated web applications. FuncPort is a reflection of
+                innovative, AI-integrated web applications. FuncSpan is a reflection of
                 expertise in modern web technologies and scalable system architecture.
               </p>
               <div className="flex gap-3 mt-6">
@@ -800,7 +800,7 @@ export default function Landing() {
                   <p className="text-sm text-slate-400 leading-relaxed">{project.description}</p>
                   <div className="mt-4 flex items-center justify-between">
                     <span className="text-xs text-slate-500">{project.stats}</span>
-                    {project.title === 'FuncPort' ? (
+                    {project.title === 'FuncSpan' ? (
                       <Link to="/app" className="text-xs text-primary-400 hover:text-primary-300 transition flex items-center gap-1 group">
                         Open Playground
                         <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition" />
@@ -830,11 +830,11 @@ export default function Landing() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
-                { domain: 'funclexa.me', product: 'FuncLexa Ecosystem', desc: 'Central hub for developer resources & ecosystems.', color: 'text-indigo-400' },
-                { domain: 'assets.funclexa.me', product: 'FuncLexa Assets', desc: 'Premium workspace, component library, & design tools.', color: 'text-emerald-400' },
-                { domain: 'mock.funclexa.me', product: 'FuncPort Playground', desc: 'Real-time proxy routing & network testing console.', color: 'text-cyan-400' },
-                { domain: 'chat.funclexa.me', product: 'LexaChat AI', desc: 'Intelligent assistant with real-time context capabilities.', color: 'text-purple-400' },
-                { domain: 'flexa.funclexa.me', product: 'Flexa AI', desc: 'Multilingual conversational virtual voice agent.', color: 'text-rose-400' },
+                { domain: 'funclexa.dev', product: 'FuncLexa Ecosystem', desc: 'Central hub for developer resources & ecosystems.', color: 'text-indigo-400' },
+                { domain: 'assets.funclexa.dev', product: 'FuncLexa Assets', desc: 'Premium workspace, component library, & design tools.', color: 'text-emerald-400' },
+                { domain: 'mock.funclexa.dev', product: 'FuncSpan Playground', desc: 'Real-time proxy routing & network testing console.', color: 'text-cyan-400' },
+                { domain: 'chat.funclexa.dev', product: 'LexaChat AI', desc: 'Intelligent assistant with real-time context capabilities.', color: 'text-purple-400' },
+                { domain: 'flexa.funclexa.dev', product: 'Flexa AI', desc: 'Multilingual conversational virtual voice agent.', color: 'text-rose-400' },
               ].map((site, idx) => (
                 <div key={idx} className="p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.05] transition group flex items-start justify-between">
                   <div>
@@ -865,7 +865,7 @@ export default function Landing() {
 
             <div className="relative">
               <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-                Launch <span className="text-gradient-animated-funclexa font-extrabold">FuncPort</span>
+                Launch <span className="text-gradient-animated-funclexa font-extrabold">FuncSpan</span>
               </h2>
               <p className="text-lg text-slate-300 mb-10 max-w-md mx-auto">
                 Validate APIs, simulate failures, and test frontend resilience before deployment.
@@ -903,7 +903,7 @@ export default function Landing() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <img src="/logo.png" alt="FuncLexa Logo" className="w-9 h-9 object-contain" />
-                <span className="text-lg font-bold text-gradient-animated-funclexa">FuncPort</span>
+                <span className="text-lg font-bold text-gradient-animated-funclexa">FuncSpan</span>
               </div>
               <p className="text-sm text-slate-400 font-medium leading-relaxed">
                 Part of the FuncLexa Ecosystem
@@ -932,7 +932,7 @@ export default function Landing() {
               <ul className="space-y-3 text-sm">
                 <li><a href="#" className="text-slate-300 hover:text-white transition">LexaChat AI</a></li>
                 <li><a href="#" className="text-slate-300 hover:text-white transition">Flexa AI</a></li>
-                <li><Link to="/app" className="text-slate-300 hover:text-white transition">FuncPort</Link></li>
+                <li><Link to="/app" className="text-slate-300 hover:text-white transition">FuncSpan</Link></li>
                 <li><a href="#" className="text-slate-300 hover:text-white transition">FuncLexa Assets</a></li>
               </ul>
             </div>
@@ -950,7 +950,7 @@ export default function Landing() {
                 </a>
               </div>
               <p className="text-xs text-slate-500 mt-4 leading-relaxed">
-                © 2024 FuncLexa. FuncPort is part of the FuncLexa ecosystem.
+                © 2024 FuncLexa. FuncSpan is part of the FuncLexa ecosystem.
               </p>
             </div>
           </div>

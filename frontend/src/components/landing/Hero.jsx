@@ -29,7 +29,7 @@ export default function Hero() {
             </h1>
 
             <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
-              FuncPort emulates latency, forces status code failures, and mutates response schemas in real-time. Guarantee your frontend application behaves under chaotic server conditions.
+              FuncSpan emulates latency, forces status code failures, and mutates response schemas in real-time. Guarantee your frontend application behaves under chaotic server conditions.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">

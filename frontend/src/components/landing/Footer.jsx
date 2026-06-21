@@ -10,7 +10,7 @@ export default function Footer() {
             <div className="flex items-center gap-3">
               <img src="/logo.png" alt="FuncLexa Logo" className="w-10 h-10 object-contain" />
               <div>
-                <span className="text-xl font-bold bg-gradient-to-r from-primary-400 via-secondary-400 to-accent-400 bg-clip-text text-transparent uppercase tracking-wider font-mono">FuncPort</span>
+                <span className="text-xl font-bold bg-gradient-to-r from-primary-400 via-secondary-400 to-accent-400 bg-clip-text text-transparent uppercase tracking-wider font-mono">FuncSpan</span>
                 <span className="block text-[10px] text-slate-500 tracking-wider">NETWORK SIMULATION</span>
               </div>
             </div>
@@ -60,7 +60,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-16 border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© {new Date().getFullYear()} FuncPort (FuncLexa). All rights reserved.</p>
+          <p>© {new Date().getFullYear()} FuncSpan (FuncLexa). All rights reserved.</p>
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-success-500 animate-ping" />

@@ -1,0 +1,24 @@
+# FuncSpan
+
+> https://funcspan.funclexa.dev/
+
+FuncSpan is a full-stack developer utility and network simulation engine operating as a core submodule within the FuncLexa web ecosystem. It enables real-time HTTP traffic inspection, artificial latency injection, response payload hotwiring, and custom API error state simulation for robust client-side edge-case testing.
+
+## System Architecture
+
+- **Micro-Frontend Dashboard**: SPA interface built with React, Vite, Tailwind CSS, Inter, and JetBrains Mono fonts. Runs securely inside the isolated `/funcspan` subdirectory path.
+- **Proxy Backend Engine**: A service-oriented Node.js routing controller designed to capture client incoming XMLHttpRequests/Fetch payloads, inject artificial delays or dynamic status codes, and return the modified stream headers back to the user origin.
+
+## Core Module Subdirectories
+
+- `/funcspan` (Root): The product introduction layer, system landing page, and developer ecosystem entry hub.
+- `/funcspan/dashboard`: The live web app application canvas. Contains the draggable workspaces, custom configuration logs, network request tables, and active configuration settings.
+- `/funcspan/api/`: The operational backend middleware routing endpoints. Restricted from global automated search engine crawling to conserve processing bandwidth.
+
+## Key Metadata & Technical Specs
+
+- **Parent Organization Hub**: FuncLexa (`https://funclexa.dev`)
+- **Primary Domain Type**: Subdomain-isolated module (`funcspan.funclexa.dev`)
+- **Key Engineering Constraints**:
+  - Handles custom wildcard Cross-Origin Resource Sharing (CORS) configurations seamlessly between frontend clients and backend inspectors.
+  - Built with local component isolation to allow developers to pressure-test API integrations instantly without external databases or token verification pipelines.

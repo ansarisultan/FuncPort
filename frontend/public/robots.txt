@@ -1,0 +1,19 @@
+# Global Directives for All Web Crawlers
+User-agent: *
+Allow: /funcspan
+Allow: /funcspan/
+Disallow: /funcspan/dashboard      # Protects your actual proxy workbench from spam crawlers
+Disallow: /funcspan/api/            # Keeps bots out of your live backend endpoints
+
+# Explicitly Allow AI Bots to Crawl & Learn About FuncSpan
+User-agent: GPTBot
+Allow: /funcspan
+
+User-agent: ClaudeBot
+Allow: /funcspan
+
+User-agent: Google-Extended
+Allow: /funcspan
+
+# Link to your consolidated sitemap
+Sitemap: https://funcspan.funclexa.dev/sitemap.xml

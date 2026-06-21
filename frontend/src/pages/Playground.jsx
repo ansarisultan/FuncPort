@@ -109,7 +109,7 @@ export default function Playground() {
       const dataStr = JSON.stringify(backupData, null, 2);
       const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
 
-      const exportFileDefaultName = `funcport-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      const exportFileDefaultName = `funcspan-backup-${new Date().toISOString().slice(0, 10)}.json`;
 
       const linkElement = document.createElement('a');
       linkElement.setAttribute('href', dataUri);
@@ -294,7 +294,7 @@ export default function Playground() {
             <div>
               <h1 className="text-sm sm:text-xl font-bold flex items-center gap-1.5 sm:gap-3">
                 <Network className="w-4 h-4 sm:w-5 sm:h-5 text-[#06B6D4] flex-shrink-0" />
-                <span className="text-gradient-animated-funclexa whitespace-nowrap">FuncPort Proxy</span>
+                <span className="text-gradient-animated-funclexa whitespace-nowrap">FuncSpan Proxy</span>
                 {isProxyActive && (
                   <span className="text-[9px] sm:text-xs font-normal text-[#22C55E] bg-[#22C55E]/10 px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full border border-[#22C55E]/20 flex items-center gap-1 sm:gap-2 animate-pulse whitespace-nowrap">
                     <Activity className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
@@ -304,7 +304,7 @@ export default function Playground() {
               </h1>
               <p className="text-[10px] sm:text-sm text-slate-400 mt-0.5 sm:mt-1 flex items-center gap-1 sm:gap-2">
                 <Shield className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#06B6D4] flex-shrink-0" />
-                <span className="truncate">FuncPort Simulator • {trafficLogs.length} reqs</span>
+                <span className="truncate">FuncSpan Simulator • {trafficLogs.length} reqs</span>
               </p>
             </div>
             
@@ -455,7 +455,7 @@ export default function Playground() {
               mock.funclexa.com
             </span>
             <span className="text-slate-600">|</span>
-            <span>FuncPort Network Environment Playground</span>
+            <span>FuncSpan Network Environment Playground</span>
           </div>
         </div>
       </div>
