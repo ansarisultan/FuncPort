@@ -832,7 +832,7 @@ export default function Landing() {
               {[
                 { domain: 'funclexa.dev', product: 'FuncLexa Ecosystem', desc: 'Central hub for developer resources & ecosystems.', color: 'text-indigo-400' },
                 { domain: 'assets.funclexa.dev', product: 'FuncLexa Assets', desc: 'Premium workspace, component library, & design tools.', color: 'text-emerald-400' },
-                { domain: 'mock.funclexa.dev', product: 'FuncSpan Playground', desc: 'Real-time proxy routing & network testing console.', color: 'text-cyan-400' },
+                { domain: 'funcspan.funclexa.dev', product: 'FuncSpan Playground', desc: 'Real-time proxy routing & network testing console.', color: 'text-cyan-400' },
                 { domain: 'chat.funclexa.dev', product: 'LexaChat AI', desc: 'Intelligent assistant with real-time context capabilities.', color: 'text-purple-400' },
                 { domain: 'flexa.funclexa.dev', product: 'Flexa AI', desc: 'Multilingual conversational virtual voice agent.', color: 'text-rose-400' },
               ].map((site, idx) => (

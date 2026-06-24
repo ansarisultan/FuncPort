@@ -122,7 +122,7 @@ export default function AIAssistant({ isOpen, onClose }) {
               </div>
               <h3 className="text-lg font-semibold text-white">How can I help you?</h3>
               <p className="text-sm text-slate-400 max-w-md mt-2">
-                I'm your AI assistant for mock.funclexa. Ask me about proxy configuration,
+                I'm your AI assistant for FuncSpan. Ask me about proxy configuration,
                 network simulation, stress testing, or any feature.
               </p>
               

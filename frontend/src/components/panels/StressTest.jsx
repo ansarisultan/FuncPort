@@ -110,6 +110,8 @@ export default function StressTest() {
           const { proxyUrl } = useStore.getState();
           if (proxyUrl) {
             const actualProxyUrl = proxyUrl
+              .replace('http://funcspan.funclexa.dev', API_BASE_URL)
+              .replace('https://funcspan.funclexa.dev', API_BASE_URL)
               .replace('http://mock.funclexa.com', API_BASE_URL)
               .replace('https://mock.funclexa.com', API_BASE_URL);
             const batchSize = Math.ceil(stressTestConfig.totalRequests / (stressTestConfig.duration || 30));

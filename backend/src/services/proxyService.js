@@ -103,7 +103,7 @@ class ProxyService {
   }
 
   async generateProxyUrl(proxyId) {
-    const baseUrl = process.env.PROXY_BASE_URL || 'http://mock.funclexa.com';
+    const baseUrl = process.env.PROXY_BASE_URL || 'http://funcspan.funclexa.dev';
     return `${baseUrl}/p/${proxyId}`;
   }
 
@@ -124,7 +124,7 @@ class ProxyService {
         url: url,
         timeout: 5000,
         headers: {
-          'User-Agent': 'FuncPort-Network-Checker/1.0',
+          'User-Agent': 'FuncSpan-Network-Checker/1.0',
         },
         validateStatus: () => true,
       });

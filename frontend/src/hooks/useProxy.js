@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useStore } from '../store/useStore';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import toast from 'react-hot-toast';
 
 export function useProxy() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -23,30 +24,14 @@ export function useProxy() {
   } = useStore();
 
   const getNetworkConfig = () => {
-    const config = {
-      latency,
-      errorCode,
-      failureRate,
-      rateLimit,
-      payloadMultiplier,
-      networkProfile,
+    return {
+      latency: useStore.getState().latency,
+      errorCode: useStore.getState().errorCode,
+      failureRate: useStore.getState().failureRate,
+      rateLimit: useStore.getState().rateLimit || 'none',
+      payloadMultiplier: useStore.getState().payloadMultiplier || 1,
+      networkProfile: useStore.getState().networkProfile || 'custom',
     };
-
-    // Apply network profile presets
-    const profiles = {
-      'fast-wifi': { latency: 0, failureRate: 0 },
-      '4g': { latency: 100, failureRate: 5 },
-      '3g': { latency: 300, failureRate: 10 },
-      '2g': { latency: 800, failureRate: 20 },
-      'satellite': { latency: 1500, failureRate: 25 },
-    };
-
-    const profile = useStore.getState().networkProfile;
-    if (profile !== 'custom' && profiles[profile]) {
-      Object.assign(config, profiles[profile]);
-    }
-
-    return config;
   };
 
   const generateProxy = async () => {
@@ -126,6 +111,27 @@ export function useProxy() {
     return false;
   };
 
+  // Check active proxy status on mount (to verify if stored session exists on backend)
+  useEffect(() => {
+    const checkProxyStatus = async () => {
+      const activeProxyId = useStore.getState().proxyId;
+      const isProxyActive = useStore.getState().isProxyActive;
+      if (isProxyActive && activeProxyId) {
+        try {
+          await axios.get(`${API_BASE_URL}/api/proxy/${activeProxyId}`);
+        } catch (err) {
+          if (err.response && err.response.status === 404) {
+            setIsProxyActive(false);
+            setProxyId(null);
+            setProxyUrl('');
+            toast.error('Active proxy was not found on the server. Deactivating.');
+          }
+        }
+      }
+    };
+    checkProxyStatus();
+  }, [setIsProxyActive, setProxyId, setProxyUrl]);
+
   // Sync network conditions and schema mutations to backend dynamically when settings change
   useEffect(() => {
     const activeProxyId = useStore.getState().proxyId;
@@ -144,13 +150,19 @@ export function useProxy() {
         });
       } catch (err) {
         console.error('Failed to sync settings with backend proxy:', err);
+        if (err.response && err.response.status === 404) {
+          setIsProxyActive(false);
+          setProxyId(null);
+          setProxyUrl('');
+          toast.error('Saved proxy session has expired or was not found on the server.');
+        }
       }
     };
 
     // Debounce backend sync slightly to avoid hitting API on every keystroke/slider drag
     const timer = setTimeout(syncConfig, 400);
     return () => clearTimeout(timer);
-  }, [latency, errorCode, failureRate, rateLimit, payloadMultiplier, networkProfile, schemaMutations]);
+  }, [latency, errorCode, failureRate, rateLimit, payloadMultiplier, networkProfile, schemaMutations, setIsProxyActive, setProxyId, setProxyUrl]);
 
   return {
     generateProxy,

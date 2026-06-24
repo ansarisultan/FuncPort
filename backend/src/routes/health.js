@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.json({
     status: 'healthy',
-    service: 'mock.funclexa Backend',
+    service: 'FuncSpan Backend',
     version: '1.0.0',
     timestamp: new Date().toISOString(),
   });

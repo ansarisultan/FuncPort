@@ -1,7 +1,7 @@
 {
   "name": "mock-backend",
   "version": "1.0.0",
-  "description": "Mock.funclexa Backend - Network Environment Playground",
+  "description": "FuncSpan Backend - Network Environment Playground",
   "type": "module",
   "main": "src/index.js",
   "scripts": {

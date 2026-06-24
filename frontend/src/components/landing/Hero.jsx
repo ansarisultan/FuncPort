@@ -75,7 +75,7 @@ export default function Hero() {
                   <span className="text-slate-500">[09:22:15]</span> <span className="text-primary-400 font-bold">INFO:</span> Initializing network simulation engine...
                 </div>
                 <div>
-                  <span className="text-slate-500">[09:22:16]</span> <span className="text-primary-400 font-bold">INFO:</span> Proxy route set up at <span className="text-white underline">http://mock.funclexa.com/p/proxy_89f0</span>
+                  <span className="text-slate-500">[09:22:16]</span> <span className="text-primary-400 font-bold">INFO:</span> Proxy route set up at <span className="text-white underline">http://funcspan.funclexa.dev/p/proxy_89f0</span>
                 </div>
                 <div>
                   <span className="text-slate-500">[09:22:18]</span> <span className="text-warning-400 font-bold">WARN:</span> Injecting simulated latency: <span className="text-white">450ms</span> (+/- 50ms jitter)

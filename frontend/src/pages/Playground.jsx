@@ -33,7 +33,8 @@ export default function Playground() {
     failureRate,
     errorCode,
     trafficStats,
-    themeMode
+    themeMode,
+    backendUrl
   } = useStore();
   
   // Call useProxy to ensure dynamic configuration sync effect remains mounted & active at all times
@@ -452,7 +453,7 @@ export default function Playground() {
           <div className="flex items-center gap-2">
             <span className="text-primary-400 flex items-center gap-1">
               <Globe className="w-3 h-3" />
-              mock.funclexa.com
+              funcspan.funclexa.dev
             </span>
             <span className="text-slate-600">|</span>
             <span>FuncSpan Network Environment Playground</span>
@@ -605,7 +606,29 @@ function OverviewPage({
   setActiveTab,
   navigate
 }) {
-  const { toggleProxy, clearLogs } = useStore();
+  const { generateProxy, stopProxy } = useProxy();
+  const { clearTrafficLogs, backendUrl } = useStore();
+
+  const handleToggleProxy = async () => {
+    if (isProxyActive) {
+      await stopProxy();
+      toast.success('Proxy router deactivated');
+    } else {
+      const url = await generateProxy();
+      if (url) {
+        toast.success('Proxy router activated');
+      } else {
+        toast.error('Please configure your Backend URL first.');
+        setActiveTab('config');
+        navigate('/app/config');
+      }
+    }
+  };
+
+  const handleClearLogs = () => {
+    clearTrafficLogs();
+    toast.success('Traffic logs cleared');
+  };
 
   const totalLogs = trafficLogs.length;
   const errorLogsCount = trafficLogs.filter(log => log.status >= 400).length;
@@ -818,8 +841,8 @@ function OverviewPage({
                             {log.method}
                           </span>
                         </td>
-                        <td className="py-2 text-slate-300 truncate max-w-[120px]" title={log.path}>
-                          {log.path}
+                        <td className="py-2 text-slate-300 truncate max-w-[120px]" title={log.route || log.path || ''}>
+                          {log.route || log.path || ''}
                         </td>
                         <td className="py-2">
                           <span className={`font-bold ${
@@ -834,7 +857,7 @@ function OverviewPage({
                           {log.latency || log.duration || 0}ms
                         </td>
                         <td className="py-2 text-slate-500 text-right">
-                          {new Date(log.timestamp).toLocaleTimeString()}
+                          {new Date(log.time || log.timestamp || Date.now()).toLocaleTimeString()}
                         </td>
                       </tr>
                     ))}
@@ -856,7 +879,7 @@ function OverviewPage({
               
               <div className="space-y-3">
                 <button 
-                  onClick={toggleProxy}
+                  onClick={handleToggleProxy}
                   className={`w-full py-2.5 rounded-xl text-xs font-semibold border transition duration-300 flex items-center justify-center gap-2 ${
                     isProxyActive 
                       ? 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/30 hover:bg-[#EF4444]/20' 
@@ -884,7 +907,7 @@ function OverviewPage({
                 </button>
 
                 <button 
-                  onClick={clearLogs}
+                  onClick={handleClearLogs}
                   className="w-full py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-[#EF4444] bg-transparent border border-dashed border-[#1E293B] hover:border-[#EF4444]/30 transition duration-300 flex items-center justify-center gap-2"
                 >
                   <AlertCircle className="w-4 h-4" />
@@ -896,7 +919,7 @@ function OverviewPage({
             <div className="mt-6 pt-4 border-t border-[#1E293B]/40 text-[10px] text-slate-500 font-mono space-y-1.5">
               <div className="flex justify-between">
                 <span>Active Backend URL:</span>
-                <span className="text-[#06B6D4] truncate max-w-[150px]">{useStore.getState().backendUrl || 'None'}</span>
+                <span className="text-[#06B6D4] truncate max-w-[150px]">{backendUrl || 'None'}</span>
               </div>
               <div className="flex justify-between">
                 <span>Latency Penalty:</span>

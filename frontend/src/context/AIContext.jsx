@@ -3,7 +3,7 @@ import { useStore } from '../store/useStore';
 
 const AIContext = createContext(null);
 
-const SYSTEM_PROMPT = `You are mock.funclexa AI Assistant, an intelligent helper for the Network Environment Playground.
+const SYSTEM_PROMPT = `You are FuncSpan AI Assistant, an intelligent helper for the Network Environment Playground.
 You help developers test their applications against controlled backend conditions.
 
 You have access to:
@@ -105,7 +105,7 @@ Current Configuration:
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMessage }]);
 
       try {
-        localStorage.setItem('mock_funclexa_chat_history', JSON.stringify(
+        localStorage.setItem('funcspan_chat_history', JSON.stringify(
           [...messages, userMsg, { role: 'assistant', content: assistantMessage }].slice(-50)
         ));
       } catch (e) {}
@@ -125,12 +125,13 @@ Current Configuration:
 
   const clearHistory = useCallback(() => {
     setMessages([]);
+    localStorage.removeItem('funcspan_chat_history');
     localStorage.removeItem('mock_funclexa_chat_history');
   }, []);
 
   const loadHistory = useCallback(() => {
     try {
-      const stored = localStorage.getItem('mock_funclexa_chat_history');
+      const stored = localStorage.getItem('funcspan_chat_history') || localStorage.getItem('mock_funclexa_chat_history');
       if (stored) {
         const parsed = JSON.parse(stored);
         setMessages(parsed);

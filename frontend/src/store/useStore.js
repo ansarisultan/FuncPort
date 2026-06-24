@@ -83,11 +83,62 @@ export const useStore = create(
       setProxyUrl: (url) => set({ proxyUrl: url }),
       setProxyId: (id) => set({ proxyId: id }),
       setIsProxyActive: (active) => set({ isProxyActive: active }),
-      setLatency: (latency) => set({ latency }),
+      setLatency: (latency) => {
+        const state = get();
+        const update = { latency };
+        const profiles = {
+          'fast-wifi': { latency: 0, failureRate: 0 },
+          '4g': { latency: 100, failureRate: 5 },
+          '3g': { latency: 300, failureRate: 10 },
+          '2g': { latency: 800, failureRate: 20 },
+          'satellite': { latency: 1500, failureRate: 25 },
+        };
+        const currentProfile = state.networkProfile;
+        if (currentProfile !== 'custom' && profiles[currentProfile]) {
+          if (profiles[currentProfile].latency !== latency) {
+            update.networkProfile = 'custom';
+          }
+        }
+        set(update);
+      },
       setErrorCode: (code) => set({ errorCode: code }),
-      setFailureRate: (rate) => set({ failureRate: rate }),
+      setFailureRate: (rate) => {
+        const state = get();
+        const update = { failureRate: rate };
+        const profiles = {
+          'fast-wifi': { latency: 0, failureRate: 0 },
+          '4g': { latency: 100, failureRate: 5 },
+          '3g': { latency: 300, failureRate: 10 },
+          '2g': { latency: 800, failureRate: 20 },
+          'satellite': { latency: 1500, failureRate: 25 },
+        };
+        const currentProfile = state.networkProfile;
+        if (currentProfile !== 'custom' && profiles[currentProfile]) {
+          if (profiles[currentProfile].failureRate !== rate) {
+            update.networkProfile = 'custom';
+          }
+        }
+        set(update);
+      },
       setRateLimit: (limit) => set({ rateLimit: limit }),
-      setNetworkProfile: (profile) => set({ networkProfile: profile }),
+      setNetworkProfile: (profile) => {
+        const profiles = {
+          'fast-wifi': { latency: 0, failureRate: 0 },
+          '4g': { latency: 100, failureRate: 5 },
+          '3g': { latency: 300, failureRate: 10 },
+          '2g': { latency: 800, failureRate: 20 },
+          'satellite': { latency: 1500, failureRate: 25 },
+        };
+        if (profile !== 'custom' && profiles[profile]) {
+          set({
+            networkProfile: profile,
+            latency: profiles[profile].latency,
+            failureRate: profiles[profile].failureRate
+          });
+        } else {
+          set({ networkProfile: profile });
+        }
+      },
       setPayloadMultiplier: (multiplier) => set({ payloadMultiplier: multiplier }),
       setPayloadSize: (size) => set({ payloadSize: size }),
       
