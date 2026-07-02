@@ -2,6 +2,7 @@
 <html lang="en" class="dark">
 
 <head>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -95,8 +96,8 @@
           "isPartOf": { "@id": "https://funclexa.dev/#organization" }
         },
         {
-          "@type": "Organization",
-          "@id": "https://funclexa.dev/#organization",
+          "@type": "WebSite",
+          "@id": "https://funclexa.dev/#website",
           "name": "FuncLexa",
           "url": "https://funclexa.dev/",
           "logo": {
@@ -120,11 +121,25 @@
       ]
     }
     </script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V93TL00YH5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V93TL00YH5');
+</script>
 </head>
 
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
+  <div style="display: none;">
+    <img src="/config.png" alt="Config" />
+    <img src="/landing.png" alt="Landing" />
+    <img src="/traffic.png" alt="Traffic" />
+  </div>
 </body>
 
 </html>

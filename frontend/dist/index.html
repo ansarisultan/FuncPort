@@ -1,17 +1,141 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FuncPort by FuncLexa - Network Testing Playground</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/assets/index-DIrr-ijm.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Ou6YjLrv.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+
+<head>
+  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- 1. Primary Title Token & Core Keywords (60 chars — safe for full SERP display) -->
+  <title>FuncSpan – Online Network & API Traffic Simulator | FuncLexa</title>
+
+  <!-- 2. Primary SEO Crawling Metadata -->
+  <meta name="description"
+    content="FuncSpan is a free browser-based network simulator. Inject latency, mock HTTP status codes, edit live API responses, and inspect real-time traffic payloads." />
+  <meta name="keywords"
+    content="FuncSpan, FuncLexa, network simulator, API traffic inspector, mock API server, HTTP status code injector, latency simulator, rate limit testing, developer tools, network proxy testing" />
+  <meta name="author" content="Sultan Salauddin Ansari" />
+  <meta name="application-name" content="FuncSpan" />
+
+  <!-- Robots: index/follow + opt into large image thumbnails & uncapped snippets in SERPs -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <!-- Canonical: MUST match the real deployed origin. This was previously pointing to
+         funclexa.dev/funcspan while the app is actually served at funcspan.funclexa.dev —
+         that mismatch confuses Google about which URL to index and which one owns the content. -->
+  <link rel="canonical" href="https://funcspan.funclexa.dev/" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+  <meta name="theme-color" content="#0d1117" />
+
+  <!-- 3. Open Graph / Social Preview Cards (LinkedIn, Facebook, Slack, Discord, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="FuncLexa" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:title" content="FuncSpan – Network Testing Playground & API Proxy Simulator" />
+  <meta property="og:description"
+    content="Take full control of your network layer. Force error states, simulate latency and rate limits, and inspect live data packets in real time." />
+  <meta property="og:url" content="https://funcspan.funclexa.dev/" />
+  <!-- One strong, on-brand image beats three competing ones — social parsers usually grab
+         whichever resolves first/largest, so an unrelated personal photo here can end up as
+         the preview thumbnail instead of the product screenshot. Swap in a real dashboard
+         screenshot at 1200x630 for the richest LinkedIn/Twitter card. -->
+  <meta property="og:image" content="https://funcspan.funclexa.dev/funcspan-preview.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="FuncSpan dashboard showing live API traffic inspection and latency controls" />
+
+  <!-- 4. Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FuncSpan – Developer Network & API Simulator" />
+  <meta name="twitter:description"
+    content="Hotwire API responses, inject latency, and test failure states in real time — right in your browser." />
+  <meta name="twitter:image" content="https://funcspan.funclexa.dev/funcspan-preview.png" />
+  <!-- <meta name="twitter:site" content="@yourhandle" /> -->
+  <!-- <meta name="twitter:creator" content="@yourhandle" /> -->
+
+  <!-- 5. Font Preconnect Layout Links -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- 6. JSON-LD Structured Data — this is what actually earns rich results and AI Overview /
+         answer-engine citations in 2026. Plain meta tags help CTR; schema tells Google and
+         LLM crawlers what FuncSpan *is*. Fill in real values where placeholders are noted —
+         never add an AggregateRating block unless you have genuine collected reviews; fabricated
+         ratings are a Google spam-policy violation and can get the page demoted. -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://funcspan.funclexa.dev/#software",
+          "name": "FuncSpan",
+          "alternateName": "FuncSpan Network Simulator",
+          "url": "https://funcspan.funclexa.dev/",
+          "description": "A browser-based network testing playground to simulate latency, inject HTTP status codes, modify API responses, and inspect real-time traffic payloads.",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Any (runs in browser)",
+          "browserRequirements": "Requires JavaScript",
+          "image": "https://funcspan.funclexa.dev/funcspan-preview.png",
+          "screenshot": "https://funcspan.funclexa.dev/funcspan-preview.png",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "author": { "@id": "https://funclexa.dev/#organization" },
+          "publisher": { "@id": "https://funclexa.dev/#organization" },
+          "isPartOf": { "@id": "https://funclexa.dev/#organization" }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://funclexa.dev/#organization",
+          "name": "FuncLexa",
+          "url": "https://funclexa.dev/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://funclexa.dev/logo.png"
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://funcspan.funclexa.dev/#webpage",
+          "url": "https://funcspan.funclexa.dev/",
+          "name": "FuncSpan – Online Network & API Traffic Simulator",
+          "description": "FuncSpan is a free browser-based network simulator. Inject latency, mock HTTP status codes, edit live API responses, and inspect real-time traffic payloads.",
+          "isPartOf": { "@id": "https://funclexa.dev/#organization" },
+          "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://funcspan.funclexa.dev/funcspan-preview.png"
+          },
+          "inLanguage": "en-US"
+        }
+      ]
+    }
+    </script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V93TL00YH5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V93TL00YH5');
+</script>
+  <script type="module" crossorigin src="/assets/index-u1ePbWLQ.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BfmYLDEH.css">
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
 </html>
