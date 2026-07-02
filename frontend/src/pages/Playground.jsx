@@ -16,7 +16,7 @@ import {
   ChevronLeft, ChevronRight, Loader2,
   Zap, Sparkles, Shield, Globe, Clock,
   AlertCircle, Database, Upload, Download, BarChart3,
-  ChevronDown, MoreHorizontal, X
+  ChevronDown, MoreHorizontal, X, ExternalLink
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import axios from 'axios';
@@ -889,6 +889,23 @@ function OverviewPage({
                   <Globe className="w-4 h-4" />
                   {isProxyActive ? 'Deactivate Proxy Router' : 'Activate Proxy Router'}
                 </button>
+
+                {isProxyActive && (
+                  <button 
+                    onClick={() => {
+                      const state = useStore.getState();
+                      const currentProxyId = state.proxyId;
+                      if (currentProxyId) {
+                        const url = `${window.location.origin}/proxy-interface/${currentProxyId}`;
+                        window.open(url, '_blank');
+                      }
+                    }}
+                    className="w-full py-2.5 rounded-xl text-xs font-semibold text-white bg-primary-600/80 hover:bg-primary-700/90 border border-primary-500/30 transition duration-300 flex items-center justify-center gap-2 animate-pulse"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Open Proxy Interface
+                  </button>
+                )}
 
                 <button 
                   onClick={() => { setActiveTab('config'); navigate('/app/config'); }}

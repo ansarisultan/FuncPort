@@ -6,7 +6,7 @@ import {
   Globe, Shield, Loader2, Sparkles,
   Server, Cpu, GitBranch, Terminal,
   ArrowRight, Plus, Trash2, Edit,
-  RefreshCw
+  RefreshCw, ExternalLink
 } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -202,13 +202,27 @@ export default function ProxyConfig() {
             <button
               onClick={handleCopy}
               className="p-2 sm:p-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition border border-white/10 hover:scale-110 duration-300"
+              title="Copy Proxy URL"
             >
               {copied ? <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-success-400" /> : <Copy className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400" />}
+            </button>
+            <button
+              onClick={() => {
+                const id = proxyUrl.split('/').pop();
+                if (id) {
+                  window.open(`${window.location.origin}/proxy-interface/${id}`, '_blank');
+                }
+              }}
+              className="p-2 sm:p-2.5 rounded-xl bg-primary-500/10 hover:bg-primary-500/20 transition border border-primary-500/20 hover:scale-110 duration-300"
+              title="Open Proxy Interface"
+            >
+              <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary-400" />
             </button>
             {isProxyActive && (
               <button
                 onClick={handleStop}
                 className="p-2 sm:p-2.5 rounded-xl bg-accent-500/20 hover:bg-accent-500/30 transition border border-accent-500/20 hover:scale-110 duration-300"
+                title="Stop Proxy"
               >
                 <Square className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-400" />
               </button>

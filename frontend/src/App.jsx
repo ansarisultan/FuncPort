@@ -3,6 +3,7 @@ import { AIProvider } from './context/AIContext';
 import Layout from './components/layout/Layout';
 import Playground from './pages/Playground';
 import Landing from './pages/Landing';
+import ProxyInterface from './pages/ProxyInterface';
 import CustomCursor from './components/ui/CustomCursor';
 
 export default function App() {
@@ -12,6 +13,9 @@ export default function App() {
         <Routes>
           {/* Landing Page - FuncSpan */}
           <Route path="/" element={<Landing />} />
+          
+          {/* Proxy Interface Page */}
+          <Route path="/proxy-interface/:proxyId" element={<ProxyInterface />} />
           
           {/* App Routes - FuncLexa Assets */}
           <Route path="/app/*" element={
